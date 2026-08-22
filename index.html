@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="canonical" href="https://worldclasskangheungbo.github.io/gyeol-releases/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GYEOL | 맥·윈도우 시스템 관리 앱">
+<meta property="og:description" content="청소·모니터링·배터리·보안에 숨은돈 공식 조회처까지 25개 도구. 무료이고, 데이터를 수집하지 않습니다.">
+<meta property="og:url" content="https://worldclasskangheungbo.github.io/gyeol-releases/">
+<meta property="og:image" content="https://worldclasskangheungbo.github.io/gyeol-releases/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GYEOL | 맥·윈도우 시스템 관리 앱">
+<meta name="twitter:image" content="https://worldclasskangheungbo.github.io/gyeol-releases/og.png">
+<title>GYEOL | 맥·윈도우 시스템 관리</title>
+<meta name="description" content="맥·윈도우 시스템 관리 앱 GYEOL. 청소·모니터링·배터리·보안까지 25개 도구. 무료이고, 데이터를 수집하지 않습니다.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%235856D6'/%3E%3Crect x='20' y='20' width='24' height='24' rx='5' fill='none' stroke='white' stroke-width='3.5'/%3E%3Cpath d='M26 12v8M32 12v8M38 12v8M26 44v8M32 44v8M38 44v8M12 26h8M12 32h8M12 38h8M44 26h8M44 32h8M44 38h8' stroke='white' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --bg:#fafafa;
+  --surface:#ffffff;
+  --line:#e4e4e7;
+  --line-strong:#c9c9cf;
+  --ink:#18181b;
+  --mut:#52525b;
+  --faint:#71717A; /* zinc-500 - 캡션 대비 WCAG AA(4.5:1+) 확보 */
+  --accent:#5856D6;
+  --accent-weak:rgba(88,86,214,.07);
+  --mono:"Geist Mono",ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px;
+  --r-s:7px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+  font-size:15px;line-height:1.6;
+  word-break:keep-all;overflow-wrap:break-word;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-weak);color:var(--ink)}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0}
+.wrap{width:min(1024px,calc(100% - 48px));margin:0 auto}
+
+/* ── 네비게이션 ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;height:56px;
+  background:rgba(250,250,250,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{width:min(1024px,calc(100% - 48px));margin:0 auto;height:100%;display:flex;align-items:center;gap:26px}
+
+/* ── 워드마크 "GYEOL." ── */
+.wm{
+  font-weight:800;letter-spacing:-.055em;line-height:1;
+  font-size:18px;display:inline-flex;align-items:baseline;
+  font-feature-settings:"ss01";
+}
+.wm .dot{color:var(--accent);margin-left:.02em}
+.wm-s{font-weight:800;letter-spacing:-.05em;font-size:12.5px}
+.wm-s .dot{color:var(--accent)}
+@media (prefers-reduced-motion: no-preference){
+  .js .nav-wm{opacity:0;animation:wmIn .6s var(--ease) .08s forwards}
+  .js .nav-wm .dot{display:inline-block;transform:scale(0);transform-origin:40% 80%;animation:dotPop .5s cubic-bezier(.34,1.56,.64,1) .58s forwards}
+  .js .s1-persist{opacity:0;animation:wmIn .8s var(--ease) .55s forwards}
+}
+@keyframes wmIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes dotPop{to{transform:scale(1)}}
+
+.nav-links{display:flex;gap:22px;margin-left:auto;font-size:13.5px;color:var(--mut)}
+.nav-links a{position:relative;transition:color .15s}
+.nav-links a::after{
+  content:"";position:absolute;left:0;right:100%;bottom:-5px;height:1px;
+  background:currentColor;transition:right .28s var(--ease);
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{right:0}
+.nav-cta{
+  font-size:13px;font-weight:600;color:#fff;background:var(--accent);
+  padding:7px 14px;border-radius:var(--r-s);
+  transition:background .15s,transform .25s var(--ease); /* 복귀 짧게 */
+}
+.nav-cta:hover{background:#4a48c4;transform:translateY(-1px);transition:background .15s,transform .35s var(--ease)}
+.nav-cta:active{transform:translateY(1px)}
+@media (max-width:720px){.nav-links{display:none}.nav-cta{margin-left:auto}}
+
+/* ── 씬1: 문제 → 해결 (핀 스토리) ── */
+.scene1{position:relative;padding:150px 0 60px}
+.s1-beat{width:min(1200px,calc(100% - 48px));margin:0 auto;text-align:center}
+.s1-beat + .s1-beat{margin-top:96px}
+.giant{
+  font-size:clamp(42px,7.6vw,108px);font-weight:700;letter-spacing:-.042em;line-height:1.06;
+  text-wrap:balance;
+}
+.giant .quiet{color:var(--faint)}
+.giant .stop{color:var(--accent)}
+.s1-persist{width:min(1200px,calc(100% - 48px));margin:44px auto 0;text-align:center}
+.s1-sub{margin:0 auto;max-width:620px;font-size:clamp(15.5px,1.8vw,18px);line-height:1.65;color:var(--mut);text-wrap:balance}
+.s1-ctas{display:flex;gap:10px;margin-top:28px;justify-content:center;flex-wrap:wrap}
+.s1-meta{margin-top:18px;font-size:12.5px;color:var(--faint);font-family:var(--mono);letter-spacing:0}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:var(--r-s);font-weight:600;font-size:14.5px;
+  padding:12px 24px;border:1px solid transparent;cursor:pointer;
+  transition:background .15s,border-color .15s,transform .25s var(--ease);
+}
+.btn:hover{transform:translateY(-1.5px);transition:background .15s,border-color .15s,transform .35s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{color:#fff;background:var(--accent)}
+.btn-primary:hover{background:#4a48c4}
+.btn-line{color:var(--ink);background:var(--surface);border-color:var(--line)}
+.btn-line:hover{border-color:var(--line-strong)}
+
+/* 마스크 슬라이드업 (overflow 래퍼 - clip-path 금지) */
+.ml{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.ml > span{display:inline-block}
+@media (prefers-reduced-motion: no-preference){
+  .js .s1-a .ml > span{transform:translateY(118%);animation:rise 1s var(--ease) forwards}
+  .js .s1-a .ml:nth-child(1) > span{animation-delay:.1s}
+  .js .s1-a .ml:nth-child(2) > span{animation-delay:.24s}
+}
+@keyframes rise{to{transform:translateY(0)}}
+
+/* 데스크톱 모션 모드: 두 헤드라인만 겹쳐 크로스페이드, CTA는 상시 노출 (핀) */
+@media (min-width:768px){
+  .motion-on .scene1{height:100dvh;padding:56px 0 0;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .motion-on .s1-stack{display:grid;place-items:center;width:100%}
+  .motion-on .s1-beat{grid-area:1/1}
+  .motion-on .s1-beat + .s1-beat{margin-top:0}
+  .motion-on .s1-persist{margin-top:44px}
+}
+
+/* ── 씬2: 쌓이는 것들 (핀 스택) ── */
+.scene2{padding:120px 0}
+.s2-grid{display:grid;grid-template-columns:5fr 6fr;gap:56px;align-items:center}
+.s2-head h2{font-size:clamp(26px,3.6vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1.18;text-wrap:balance}
+.s2-head p{margin-top:14px;font-size:15.5px;color:var(--mut);line-height:1.65;max-width:400px}
+.pile{display:flex;flex-direction:column;gap:8px}
+.pile-row{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-s);
+  padding:14px 18px;font-size:14.5px;font-weight:500;
+  transition:border-color .18s,transform .25s var(--ease);
+}
+.pile-row:hover{border-color:var(--line-strong);transform:translateY(-1px);transition:border-color .18s,transform .35s var(--ease)}
+.pile-row span{margin-left:auto;font-size:12.5px;color:var(--faint)}
+.pile-row .sq{width:8px;height:8px;border-radius:2.5px;background:#d4d4d8;flex:none;margin:0}
+.pile-row.money{border-left:2px solid var(--accent)}
+.pile-row.money .sq{background:var(--accent)}
+@media (min-width:768px){
+  .motion-on .scene2{min-height:100dvh;padding:56px 0 0;display:flex;align-items:center}
+  .motion-on .scene2 .wrap{width:min(1024px,calc(100% - 48px))}
+}
+@media (max-width:767px){
+  .s2-grid{grid-template-columns:1fr;gap:32px}
+}
+
+/* ── 씬3: 되찾는 것들 (워드 스크럽) ── */
+.scene3{padding:150px 0 120px;text-align:center}
+.scene3 h2{
+  font-size:clamp(30px,5vw,64px);font-weight:700;letter-spacing:-.036em;line-height:1.14;
+  max-width:900px;margin:0 auto;text-wrap:balance;
+}
+.scene3 h2 span{display:inline-block}
+.regain{
+  margin:64px auto 0;width:min(1024px,calc(100% - 48px));
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--line);gap:1px;
+  text-align:left;
+}
+.regain .cell{background:var(--surface);padding:28px 26px}
+.regain b{display:block;font-size:16px;font-weight:700;letter-spacing:-.015em}
+.regain p{margin-top:8px;font-size:14px;color:var(--mut);line-height:1.65}
+@media (max-width:860px){.regain{grid-template-columns:1fr}}
+
+/* ── 씬4: 제품 등장 ── */
+.scene4{padding:60px 0 0}
+.s4-head{text-align:center}
+.s4-head h2{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-.028em}
+.s4-head p{margin-top:10px;font-size:15px;color:var(--mut)}
+.mock-wrap{margin:44px auto 0;width:min(960px,calc(100% - 48px))}
+.mock-window{
+  border-radius:var(--r);overflow:hidden;text-align:left;
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(24,24,27,.05);
+}
+.mock-titlebar{
+  height:40px;display:flex;align-items:center;gap:7px;padding:0 14px;
+  background:#fcfcfd;border-bottom:1px solid var(--line);
+}
+.tl{width:11px;height:11px;border-radius:50%}
+.tl.r{background:#FF5F57}.tl.y{background:#FEBC2E}.tl.g{background:#28C840}
+.mock-title{flex:1;text-align:center;font-size:12px;color:var(--faint);font-weight:500;margin-right:47px}
+.mock-body{display:grid;grid-template-columns:200px 1fr;min-height:440px}
+.mock-side{
+  background:#fbfbfc;border-right:1px solid var(--line);
+  padding:14px 10px;font-size:12.5px;
+}
+.mock-brand{display:flex;align-items:center;padding:4px 8px 12px}
+.mock-cap{font-size:10.5px;font-weight:600;color:var(--faint);letter-spacing:.05em;padding:10px 10px 5px}
+.mock-item{
+  display:flex;align-items:center;gap:8px;padding:5.5px 10px;border-radius:6px;
+  color:var(--mut);font-weight:500;margin:1px 0;
+}
+.mock-item i{width:6px;height:6px;border-radius:2px;background:#d4d4d8;flex:none}
+.mock-item.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
+.mock-item.on i{background:var(--accent)}
+.mock-item.dim{color:var(--faint);font-size:11.5px}
+.mock-main{padding:24px 28px}
+.mock-greet{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.mock-greet span{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:3px}
+.mock-rings{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap}
+.mring{
+  flex:1;min-width:140px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-s);padding:16px 12px;text-align:center;
+}
+.mring svg{width:84px;height:84px;margin:0 auto}
+.mring .track{fill:none;stroke:#ececef;stroke-width:8}
+.mring .val{fill:none;stroke:#3f3f46;stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%}
+.mring .num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:17px;font-weight:600;margin-top:-54px;margin-bottom:32px}
+.mring .lab{font-size:12px;color:var(--mut);font-weight:500;margin-top:8px}
+.mock-clean{
+  margin-top:16px;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-s);padding:4px 14px;
+}
+.mclean-row{display:flex;align-items:center;gap:10px;padding:9px 2px;font-size:12.5px;font-weight:500;border-bottom:1px solid #f1f1f3}
+.mclean-row:last-child{border-bottom:none}
+.mclean-row .sw{width:8px;height:8px;border-radius:2.5px;background:#d4d4d8;flex:none}
+.mclean-row b{margin-left:auto;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;font-size:12px;color:var(--mut)}
+.mock-boost{
+  margin-top:14px;display:block;width:100%;text-align:center;color:#fff;font-weight:600;font-size:13.5px;
+  padding:11px;border-radius:var(--r-s);background:var(--accent);border:none;cursor:default;
+  font-family:inherit;
+}
+.mock-note{text-align:center;font-size:12px;color:var(--faint);margin-top:14px}
+@media (max-width:720px){
+  .mock-body{grid-template-columns:1fr}
+  .mock-side{display:none}
+}
+
+/* ── 팩트 스트립 ── */
+.facts{
+  margin:64px auto 0;width:min(1024px,calc(100% - 48px));
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--line);gap:1px;
+}
+.fact{background:var(--surface);padding:22px 22px 20px}
+.fact b{display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:21px;font-weight:600;letter-spacing:-.01em}
+.fact span{display:block;margin-top:5px;font-size:13px;color:var(--mut)}
+@media (max-width:860px){.facts{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.facts{grid-template-columns:1fr}}
+
+/* ── 공통 섹션 ── */
+section.block{padding:110px 0 0}
+.sec-head h2{font-size:clamp(24px,3.2vw,34px);font-weight:700;letter-spacing:-.028em;line-height:1.22;text-wrap:balance}
+.sec-head p{margin-top:14px;font-size:15.5px;line-height:1.65;color:var(--mut);max-width:560px}
+
+/* 기능 행 리스트 */
+.rows{margin-top:40px;border-top:1px solid var(--line)}
+.row{
+  display:grid;grid-template-columns:220px 1fr;gap:24px;
+  padding:22px 4px;border-bottom:1px solid var(--line);
+}
+.row h3{font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.row p{font-size:14.5px;color:var(--mut);line-height:1.65}
+@media (max-width:720px){.row{grid-template-columns:1fr;gap:6px}}
+
+/* 카드 그리드 */
+.cards{margin-top:40px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;transition:border-color .18s,transform .25s var(--ease);
+}
+.card:hover{border-color:var(--line-strong);transform:translateY(-2px);transition:border-color .18s,transform .35s var(--ease)}
+.card h3{font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.card p{margin-top:8px;font-size:14px;color:var(--mut);line-height:1.65}
+.card-wide{grid-column:1 / -1;display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+.card-wide p{margin-top:0}
+@media (max-width:720px){
+  .cards{grid-template-columns:1fr}
+  .card-wide{grid-template-columns:1fr;gap:8px}
+}
+
+/* 보안 */
+.sec-split{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.sec-list{display:grid;gap:14px}
+.panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;
+}
+.panel .cap{font-size:12.5px;font-weight:600;color:var(--faint);margin-bottom:10px}
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.chk span{
+  font-size:12.5px;font-weight:500;color:var(--mut);
+  border:1px solid var(--line);border-radius:99px;padding:5px 11px;background:var(--bg);
+}
+@media (max-width:860px){.sec-split{grid-template-columns:1fr}}
+
+/* 한국 특화 */
+.kr{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--line);gap:1px}
+.kr .cell{background:var(--surface);padding:26px 24px}
+.kr h3{font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.kr p{margin-top:8px;font-size:14px;color:var(--mut);line-height:1.65}
+@media (max-width:860px){.kr{grid-template-columns:1fr}}
+
+/* 전체 25 그리드 */
+.all-grid{
+  margin-top:40px;display:grid;grid-template-columns:repeat(5,1fr);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--line);gap:1px;
+}
+.tool{background:var(--surface);padding:18px 16px;transition:background .15s}
+.tool:hover{background:#fcfcfd}
+.tool h4{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.tool p{margin-top:5px;font-size:12px;color:var(--faint);line-height:1.55}
+@media (max-width:1024px){.all-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.all-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:440px){.all-grid{grid-template-columns:1fr}}
+
+/* 안전 원칙 */
+.safety{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.srule .n{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:0}
+.srule h3{margin-top:8px;font-size:15px;font-weight:600;letter-spacing:-.015em}
+.srule p{margin-top:7px;font-size:13.5px;color:var(--mut);line-height:1.6}
+@media (max-width:860px){.safety{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.safety{grid-template-columns:1fr}}
+
+/* 다운로드 */
+#download{padding-bottom:0}
+.dl-grid{margin-top:40px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.plat{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;
+  display:flex;flex-direction:column;
+  transition:border-color .18s,transform .25s var(--ease);
+}
+.plat:hover{border-color:var(--line-strong);transform:translateY(-2px);transition:border-color .18s,transform .35s var(--ease)}
+.plat h3{font-size:17px;font-weight:700;letter-spacing:-.015em}
+.plat .desc{margin-top:8px;font-size:13.5px;color:var(--mut);line-height:1.6}
+.plat .btn{margin-top:20px;align-self:flex-start}
+.plat .note{margin-top:12px;font-size:12.5px;color:var(--faint);line-height:1.6}
+.dl-foot{margin-top:22px;font-size:13px;color:var(--faint)}
+@media (max-width:720px){.dl-grid{grid-template-columns:1fr}}
+
+/* 푸터 */
+footer{margin-top:110px;border-top:1px solid var(--line);padding:28px 0 40px}
+.foot{
+  width:min(1024px,calc(100% - 48px));margin:0 auto;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--faint);
+}
+.foot .wm{font-size:15px;color:var(--ink)}
+.foot .right{margin-left:auto;display:flex;gap:18px}
+.foot .right a{position:relative;color:var(--mut);transition:color .15s}
+.foot .right a::after{
+  content:"";position:absolute;left:0;right:100%;bottom:-4px;height:1px;
+  background:currentColor;transition:right .28s var(--ease);
+}
+.foot .right a:hover{color:var(--ink)}
+.foot .right a:hover::after{right:0}
+@media (max-width:720px){.foot{flex-direction:column;align-items:flex-start}.foot .right{margin-left:0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="wm nav-wm" href="#top">GYEOL<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#dash">모니터링</a>
+      <a href="#clean">정리</a>
+      <a href="#security">보안</a>
+      <a href="#all">전체 기능</a>
+    </div>
+    <a class="nav-cta" href="#download">다운로드</a>
+  </div>
+</nav>
+
+<!-- 씬1 · 문제 → 해결 -->
+<header class="scene1" id="top">
+  <div class="s1-stack">
+    <div class="s1-beat s1-a">
+      <h1 class="giant">
+        <span class="ml"><span>컴퓨터는 <span class="quiet">조용히</span></span></span>
+        <span class="ml"><span>느려집니다.</span></span>
+      </h1>
+    </div>
+    <div class="s1-beat s1-b">
+      <h2 class="giant">GYEOL이<br>되돌립니다<span class="stop">.</span></h2>
+    </div>
+  </div>
+  <div class="s1-persist">
+    <p class="s1-sub">청소·모니터링·배터리·보안까지 25개 도구.
+    무료이고, 데이터를 수집하지 않습니다.</p>
+    <div class="s1-ctas">
+      <a class="btn btn-primary" href="#download">다운로드</a>
+      <a class="btn btn-line" href="#all">전체 기능 보기</a>
+    </div>
+    <p class="s1-meta">macOS 14+ · Windows 10/11 · 무료</p>
+  </div>
+</header>
+
+<!-- 씬2 · 쌓이는 것들 -->
+<section class="scene2">
+  <div class="wrap">
+    <div class="s2-grid">
+      <div class="s2-head">
+        <h2>쓰지 않는 것들이<br>쌓입니다</h2>
+        <p>캐시, 로그, 앱이 남긴 잔여물. 그리고 잊고 지낸 돈까지.
+        보이지 않는 곳에서 조금씩 자리를 차지합니다.</p>
+      </div>
+      <div class="pile">
+        <div class="pile-row"><span class="sq"></span>사용자 캐시<span>~/Library</span></div>
+        <div class="pile-row"><span class="sq"></span>로그 파일<span>오래된 기록</span></div>
+        <div class="pile-row"><span class="sq"></span>임시·진단 캐시<span>브라우저 · 개발 도구</span></div>
+        <div class="pile-row"><span class="sq"></span>오래된 다운로드<span>잊힌 파일</span></div>
+        <div class="pile-row"><span class="sq"></span>앱 잔여물<span>지워도 남는 것</span></div>
+        <div class="pile-row"><span class="sq"></span>중복 파일<span>내용이 똑같은 사본</span></div>
+        <div class="pile-row money"><span class="sq"></span>잊힌 돈<span>휴면예금 · 미환급금</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 씬3 · 되찾는 것들 -->
+<section class="scene3">
+  <h2 class="scrub-words">
+    <span>버튼</span> <span>하나로,</span> <span>몇</span> <span>기가가</span> <span>돌아옵니다.</span>
+  </h2>
+  <div class="regain">
+    <div class="cell">
+      <b>저장공간</b>
+      <p>캐시·로그·휴지통·중복 파일까지. 부스트 한 번으로 정리하고, 자동 정리 예약도 걸어둘 수 있습니다.</p>
+    </div>
+    <div class="cell">
+      <b>잠든 돈</b>
+      <p>휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳으로 바로 안내합니다.</p>
+    </div>
+    <div class="cell">
+      <b>되돌릴 수 있는 안심</b>
+      <p>모든 삭제는 영구 삭제가 아니라 휴지통 이동. 확인 절차를 거치고, 사용자 영역만 건드립니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 씬4 · 제품 등장 -->
+<section class="scene4">
+  <div class="s4-head">
+    <h2>실제 앱은 이렇게 생겼습니다</h2>
+    <p>메모리 · 디스크 · 배터리를 한 화면에서, 실시간으로.</p>
+  </div>
+  <div class="mock-wrap">
+    <div class="mock-window">
+      <div class="mock-titlebar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="mock-title">GYEOL</span></div>
+      <div class="mock-body">
+        <aside class="mock-side">
+          <div class="mock-brand"><span class="wm-s">GYEOL<span class="dot">.</span></span></div>
+          <div class="mock-cap">대시보드</div>
+          <div class="mock-item on"><i></i>홈</div>
+          <div class="mock-item"><i></i>스마트 점검</div>
+          <div class="mock-item"><i></i>모니터</div>
+          <div class="mock-item"><i></i>배터리 &amp; 기기</div>
+          <div class="mock-item"><i></i>네트워크</div>
+          <div class="mock-cap">정리</div>
+          <div class="mock-item"><i></i>딥 클린</div>
+          <div class="mock-item"><i></i>디스크 정리</div>
+          <div class="mock-item"><i></i>중복 파일</div>
+          <div class="mock-item"><i></i>앱 정리</div>
+          <div class="mock-cap">시스템</div>
+          <div class="mock-item"><i></i>프로세스</div>
+          <div class="mock-item"><i></i>보안</div>
+          <div class="mock-item"><i></i>도구상자</div>
+          <div class="mock-item dim">+ 12개 탭 더</div>
+        </aside>
+        <main class="mock-main">
+          <div class="mock-greet">한눈에 보는 내 맥의 건강 <span>메모리 · 디스크 · 배터리를 실시간으로</span></div>
+          <div class="mock-rings">
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="110.8"/></svg>
+              <div class="num" data-v="58">58%</div>
+              <div class="lab">메모리</div>
+            </div>
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="179.5"/></svg>
+              <div class="num" data-v="32">32%</div>
+              <div class="lab">디스크</div>
+            </div>
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="42.2"/></svg>
+              <div class="num" data-v="84">84%</div>
+              <div class="lab">배터리</div>
+            </div>
+          </div>
+          <div class="mock-clean">
+            <div class="mclean-row"><span class="sw"></span>사용자 캐시<b>1.2 GB</b></div>
+            <div class="mclean-row"><span class="sw"></span>로그 파일<b>240 MB</b></div>
+            <div class="mclean-row"><span class="sw"></span>휴지통<b>3.4 GB</b></div>
+          </div>
+          <button class="mock-boost" type="button" tabindex="-1">부스트 · 한 번에 정리</button>
+        </main>
+      </div>
+    </div>
+    <p class="mock-note">실제 앱 화면을 재현한 데모입니다 · 수치는 예시</p>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>25</b><span>내장 도구 · 전부 기본 포함</span></div>
+    <div class="fact"><b>0</b><span>데이터 수집 · 광고</span></div>
+    <div class="fact"><b>휴지통</b><span>삭제는 휴지통 이동 · 되돌리기 가능</span></div>
+    <div class="fact"><b>무료</b><span>macOS 14+ · Windows 10/11</span></div>
+  </div>
+</section>
+
+<section class="block" id="dash">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>시스템 상태를 그대로 보여줍니다</h2>
+      <p>CPU·GPU·메모리·디스크·네트워크를 시스템 API로 직접 측정합니다.
+      외부 도구 없이, 실시간으로.</p>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <h3>모니터</h3>
+        <p>CPU 코어별 부하, GPU 사용률, 메모리 분해(활성·고정·압축), 디스크, 네트워크 스파크라인을 한 화면에서 봅니다.</p>
+      </div>
+      <div class="row">
+        <h3>배터리 &amp; 기기</h3>
+        <p>사이클·풀충전 용량·온도·전압·어댑터 와트를 실측합니다. 24시간 충전 습관 차트와 에어팟·마우스·키보드 배터리도 함께.</p>
+      </div>
+      <div class="row">
+        <h3>Wi-Fi 진단</h3>
+        <p>신호(RSSI)·노이즈·SNR·연결 속도·채널을 실측하고, 주변 채널 혼잡도를 스캔해 한산한 채널을 추천합니다.</p>
+      </div>
+      <div class="row">
+        <h3>인터넷 속도 측정</h3>
+        <p>핑·다운로드·업로드를 공개 측정 서버로 실측합니다. 앱별 트래픽 사용량도 함께 봅니다.</p>
+      </div>
+      <div class="row">
+        <h3>스마트 점검</h3>
+        <p>메모리·디스크·캐시·휴지통·시작 프로그램을 종합 점검하고, 문제 항목으로 바로 이동합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="clean">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>정리는 되돌릴 수 있어야 합니다</h2>
+      <p>캐시·로그·휴지통·중복 파일·앱 잔여물까지. 모든 정리는 사용자 영역만 건드리고,
+      삭제 대신 휴지통으로 이동합니다.</p>
+    </div>
+    <div class="cards">
+      <div class="card card-wide">
+        <h3>부스트</h3>
+        <p>사용자 캐시·로그·휴지통을 한 번에 정리합니다. 일·주·월 단위 백그라운드 자동 정리 예약도 지원합니다.</p>
+      </div>
+      <div class="card">
+        <h3>딥 클린</h3>
+        <p>브라우저·개발 도구·Xcode·임시·진단 캐시를 카테고리별로 심층 정리하고, 오래된 다운로드도 찾아냅니다.</p>
+      </div>
+      <div class="card">
+        <h3>중복 파일</h3>
+        <p>SHA-256 해시로 내용이 똑같은 파일을 찾아 한 개만 남기고 정리합니다.</p>
+      </div>
+      <div class="card">
+        <h3>앱 정리</h3>
+        <p>앱을 지워도 남는 잔여물(설정·캐시·지원 파일)까지 함께 제거합니다.</p>
+      </div>
+      <div class="card">
+        <h3>대용량 파일</h3>
+        <p>100MB 이상 파일을 타입별로 스캔해 Finder에서 열거나 휴지통으로 보냅니다.</p>
+      </div>
+      <div class="card">
+        <h3>저장공간 탐색</h3>
+        <p>폴더별 용량을 트리맵으로 시각화하고 드릴다운합니다. 어디가 무거운지 한눈에 보입니다.</p>
+      </div>
+      <div class="card">
+        <h3>폴더 정리 + 압축</h3>
+        <p>다운로드·데스크탑을 이미지·문서·영상별로 자동 분류합니다. ZIP·TAR.GZ 압축과 해제(암호 지원)까지.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="daily">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>매일 쓰게 되는 도구들</h2>
+      <p>스크린샷 OCR, 클립보드 히스토리, 창 스냅, 맥 응급처치.
+      하루에도 몇 번씩 쓰는 도구들을 담았습니다.</p>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <h3>스크린샷 + OCR</h3>
+        <p>전체·영역·창 캡처(PNG·JPG·PDF)에 더해, 화면 속 글자를 온디바이스 Vision으로 추출합니다(한·영). 펜·화살표·도형 주석 오버레이도 캡처에 그대로 담깁니다.</p>
+      </div>
+      <div class="row">
+        <h3>창 스냅</h3>
+        <p>다른 앱 창을 좌/우 절반·최대화·가운데로 정렬합니다. 전역 단축키 ⌃⌥ + 방향키로 어디서든.</p>
+      </div>
+      <div class="row">
+        <h3>클립보드 히스토리</h3>
+        <p>복사한 텍스트 50개·이미지 10개를 검색하고 클릭 한 번으로 재복사합니다. 메모리에만 보관하고 비밀번호 복사는 수집하지 않습니다.</p>
+      </div>
+      <div class="row">
+        <h3>도구상자</h3>
+        <p>Finder·Dock 재시작, DNS 플러시, Spotlight 재색인 같은 맥 응급처치와 숨은 설정 토글, 포트 점검·종료를 모았습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="security">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>정직한 보안</h2>
+      <p>macOS 내장 보안 시스템의 실제 상태를 조회해 그대로 보여줍니다.
+      공포 마케팅으로 결제를 유도하지 않습니다.</p>
+    </div>
+    <div class="sec-split">
+      <div class="sec-list">
+        <div class="panel">
+          <h3 style="font-size:15.5px;font-weight:600">보안 상태 점검</h3>
+          <p style="margin-top:8px;font-size:14px;color:var(--mut)">시스템의 실제 값을 읽어 9개 항목을 점검합니다.</p>
+        </div>
+        <div class="panel">
+          <h3 style="font-size:15.5px;font-weight:600">멀웨어 정밀검사</h3>
+          <p style="margin-top:8px;font-size:14px;color:var(--mut)">임시 경로·숨김 폴더의 자동 실행 항목, 깨진 서명, 애드웨어 흔적을 휴리스틱으로 탐지하고 휴지통으로 격리합니다.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="cap">점검 항목</div>
+        <div class="chk">
+          <span>XProtect 버전</span>
+          <span>SIP</span>
+          <span>Gatekeeper</span>
+          <span>FileVault</span>
+          <span>방화벽</span>
+          <span>OS 업데이트</span>
+          <span>hosts 변조</span>
+          <span>구성 프로파일</span>
+          <span>자동 실행 항목</span>
+        </div>
+        <p style="margin-top:16px;font-size:13px;color:var(--faint);line-height:1.6">전부 시스템에 이미 있는 값을 조회하는 방식입니다. 앱이 별도 백신 엔진을 설치하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="kr">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>한국 사용자를 위한 세 가지</h2>
+      <p>개인정보는 입력받지 않고, 검증된 공식 조회처와 본인 기기 안에서만 동작합니다.</p>
+    </div>
+    <div class="kr">
+      <div class="cell">
+        <h3>숨겨진 돈 찾기</h3>
+        <p>휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳만 모았습니다. 개인정보는 입력받지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>개인정보 관리</h3>
+        <p>가입 사이트 정리, 털린 내 정보 조회, 명의도용 방지. 검증된 정부·공식기관 서비스 바로가기만 제공하고, 앱은 개인정보를 저장하지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>포렌식</h3>
+        <p>사진 진위·기기 무결성·봉인 리포트를 확인합니다. 본인 기기에서만 동작합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="all">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>25개의 도구, 하나의 앱</h2>
+      <p>사이드바의 모든 탭입니다. 전부 기본 포함이고, 추가 결제는 없습니다.</p>
+    </div>
+    <div class="all-grid">
+      <div class="tool"><h4>홈</h4><p>메모리·디스크 링 게이지, 배터리·가동시간, 스마트 정리 + 부스트</p></div>
+      <div class="tool"><h4>스마트 점검</h4><p>메모리·디스크·캐시·휴지통·시작 프로그램 종합 점검</p></div>
+      <div class="tool"><h4>모니터</h4><p>CPU 코어별·GPU·메모리 분해·디스크·네트워크 실시간 대시보드</p></div>
+      <div class="tool"><h4>배터리 &amp; 기기</h4><p>배터리 건강 실측 + 충전 습관 리포트 + 블루투스 기기 배터리</p></div>
+      <div class="tool"><h4>네트워크</h4><p>앱별 트래픽 + 속도 실측 + Wi-Fi 진단 + 채널 추천</p></div>
+      <div class="tool"><h4>딥 클린</h4><p>브라우저·개발도구·Xcode·임시·진단 캐시 심층 정리</p></div>
+      <div class="tool"><h4>중복 파일</h4><p>SHA-256 해시 기반 중복 스캔, 첫 파일만 남기고 정리</p></div>
+      <div class="tool"><h4>앱 정리</h4><p>설치 앱 검색·정렬, 삭제 시 잔여물까지 동반 제거</p></div>
+      <div class="tool"><h4>대용량 파일</h4><p>100MB+ 파일 스캔, 타입 필터, Finder 열기·휴지통 이동</p></div>
+      <div class="tool"><h4>저장공간 탐색</h4><p>폴더별 용량 트리맵 시각화 + 드릴다운</p></div>
+      <div class="tool"><h4>폴더 정리</h4><p>다운로드·데스크탑을 이미지·문서·영상별 자동 분류</p></div>
+      <div class="tool"><h4>압축</h4><p>ZIP·TAR.GZ·BZ2·XZ 압축/해제, 암호 지원, 미리보기</p></div>
+      <div class="tool"><h4>디스크 정리</h4><p>모든 정리 소스를 모아 종합 원클릭 정리</p></div>
+      <div class="tool"><h4>프로세스</h4><p>메모리/CPU 상위 프로세스 실시간 조회·검색·안전 종료</p></div>
+      <div class="tool"><h4>시작 프로그램</h4><p>자동 실행 항목 조회·끄기, 언제든 복구 가능</p></div>
+      <div class="tool"><h4>보안</h4><p>SIP·Gatekeeper·FileVault 등 9항목 점검 + 멀웨어 정밀검사</p></div>
+      <div class="tool"><h4>시스템 정보</h4><p>칩·코어·메모리·시리얼·디스크 SMART 등 하드웨어 상세</p></div>
+      <div class="tool"><h4>숨겨진 돈 찾기</h4><p>휴면예금·보험금·미환급금 정부 공식 조회처 모음</p></div>
+      <div class="tool"><h4>스크린샷</h4><p>전체/영역/창 캡처 + OCR 텍스트 추출(한·영) + 주석</p></div>
+      <div class="tool"><h4>클립보드</h4><p>복사 히스토리 검색·재복사, 메모리만 보관</p></div>
+      <div class="tool"><h4>도구상자</h4><p>맥 응급처치 + 숨은 설정 토글 + 포트 점검·종료</p></div>
+      <div class="tool"><h4>창 스냅</h4><p>좌/우 절반·최대화·가운데 정렬, 전역 단축키</p></div>
+      <div class="tool"><h4>개인정보 관리</h4><p>가입 사이트 정리·털린 내 정보 등 공식 서비스 바로가기</p></div>
+      <div class="tool"><h4>포렌식</h4><p>사진 진위·기기 무결성·봉인 리포트, 본인 기기 전용</p></div>
+      <div class="tool"><h4>설정</h4><p>알림·메뉴바·자동 정리 예약·로그인 시 자동 실행</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="safety">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>빠르게 정리하되, 잃어버리지 않게</h2>
+    </div>
+    <div class="safety">
+      <div class="srule">
+        <div class="n">01</div>
+        <h3>삭제 전 반드시 확인</h3>
+        <p>부스트·휴지통 비우기·파일 삭제·프로세스 종료. 모든 파괴적 작업은 확인 다이얼로그를 거칩니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">02</div>
+        <h3>사용자 영역만</h3>
+        <p>캐시·로그 정리는 ~/Library 안에서만. 시스템 영역은 건드리지 않습니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">03</div>
+        <h3>휴지통으로 이동</h3>
+        <p>파일 삭제는 영구 삭제가 아니라 휴지통 이동. 언제든 되돌릴 수 있습니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">04</div>
+        <h3>사용 중 파일 보호</h3>
+        <p>앱이 쓰고 있는(잠긴) 캐시는 자동으로 건너뜁니다. 작업을 방해하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="download">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>무료로 시작하세요</h2>
+      <p>설치 한 번으로 청소·모니터링·보안 점검까지.</p>
+    </div>
+    <div class="dl-grid">
+      <div class="plat">
+        <h3>macOS</h3>
+        <p class="desc">25개 도구 풀버전 · macOS 14+ · 유니버설 바이너리(Apple Silicon/Intel)</p>
+        <a class="btn btn-primary" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL.dmg">macOS용 다운로드</a>
+        <p class="note">최신 버전 · DMG 약 5MB · 첫 실행은 우클릭 → 열기</p>
+      </div>
+      <div class="plat">
+        <h3>Windows</h3>
+        <p class="desc">22개 도구 · Windows 10/11 64비트 · 설치 없이 압축 해제 후 실행</p>
+        <a class="btn btn-line" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL-Windows-beta.zip">Windows용 다운로드</a>
+        <p class="note">베타 · ZIP 약 65MB · SmartScreen 경고 시 [추가 정보]→[실행]</p>
+      </div>
+    </div>
+    <p class="dl-foot">무료 · 모든 삭제는 확인 절차를 거치고 사용자 영역만 정리합니다</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <a class="wm" href="#top">GYEOL<span class="dot">.</span></a>
+    <span>© 2026 GYEOL · HBLAB. 100% 자체 구현, 타사 상표·에셋을 사용하지 않습니다.</span>
+    <div class="right">
+      <a href="#all">전체 기능</a>
+      <a href="#download">다운로드</a>
+      <a href="https://github.com/worldclasskangheungbo/gyeol-releases/issues" target="_blank" rel="noopener">문의·피드백</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !window.gsap || !window.ScrollTrigger) return; // 폴백: 전부 정적 완전 표시
+  gsap.registerPlugin(ScrollTrigger);
+  var desktop = matchMedia('(min-width:768px)').matches;
+
+  /* 공통: 등장 리빌 (초기 상태는 GSAP만 세팅 - CSS 가림 0, 데드락 원천 차단) */
+  function reveal(sel, vars){
+    gsap.utils.toArray(sel).forEach(function(el){
+      gsap.from(el, Object.assign({
+        y:18, opacity:0, duration:.8, ease:'expo.out',
+        scrollTrigger:{trigger:el, start:'top 86%', once:true}
+      }, vars || {}));
+    });
+  }
+  function revealGrid(containerSel, itemSel, each){
+    gsap.utils.toArray(containerSel).forEach(function(g){
+      var items = g.querySelectorAll(itemSel);
+      if(!items.length) return;
+      gsap.from(items, {
+        y:14, opacity:0, duration:.7, ease:'expo.out', stagger:each,
+        scrollTrigger:{trigger:g, start:'top 82%', once:true}
+      });
+    });
+  }
+
+  /* ── 씬1 · 문제→해결 (데스크톱: 핀 스크럽 2박자) ── */
+  if (desktop){
+    document.documentElement.classList.add('motion-on');
+    var s1 = gsap.timeline({
+      scrollTrigger:{trigger:'.scene1', start:'top top', end:'+=115%', pin:true, scrub:1}
+    });
+    /* 크로스페이드 + 미세 패럴랙스: 나가는 쪽 -14px, 들어오는 쪽 +14px→0 */
+    s1.to('.s1-a', {y:-14, opacity:0, ease:'none', duration:1}, 0)
+      .fromTo('.s1-b', {opacity:0, y:14}, {opacity:1, y:0, ease:'none', duration:1}, .45);
+  } else {
+    reveal('.s1-b');
+  }
+
+  /* ── 씬2 · 쌓이는 것들 (데스크톱: 핀 + 순차 스택) ── */
+  var rows = gsap.utils.toArray('.pile-row');
+  if (desktop && rows.length){
+    /* 헤딩은 스크럽 밖 1회 리빌 - 진입·스크럽 어느 진행도에서도 잘림/공백 없음 */
+    gsap.from('.s2-head', {y:20, opacity:0, duration:.9, ease:'expo.out',
+      scrollTrigger:{trigger:'.scene2', start:'top 78%', once:true}});
+    var s2 = gsap.timeline({
+      scrollTrigger:{trigger:'.scene2', start:'top top', end:'+=130%', pin:true, scrub:1}
+    });
+    rows.forEach(function(r,i){
+      s2.from(r, {y:24, opacity:0, ease:'none', duration:1}, .2 + i*.75);
+    });
+  } else {
+    reveal('.s2-head');
+    revealGrid('.pile', '.pile-row', .07);
+  }
+
+  /* ── 씬3 · 전환의 순간 (워드 스크럽) + 3셀 리빌 ── */
+  var words = document.querySelectorAll('.scrub-words span');
+  if (words.length){
+    gsap.fromTo(words, {opacity:.13}, {
+      opacity:1, stagger:.12, ease:'none',
+      scrollTrigger:{trigger:'.scene3 h2', start:'top 80%', end:'top 34%', scrub:1}
+    });
+  }
+  /* 3셀: 완전 숨김 대신 저채도 초기 상태 - 회색 빈 덩어리로 보이지 않게 */
+  gsap.utils.toArray('.regain').forEach(function(g){
+    gsap.fromTo(g.querySelectorAll('.cell'),
+      {opacity:.35, y:12},
+      {opacity:1, y:0, duration:.75, ease:'expo.out', stagger:.08,
+       scrollTrigger:{trigger:g, start:'top 94%', once:true}});
+  });
+
+  /* ── 씬4 · 제품 조립 (1회 타임라인) ── */
+  var mock = document.querySelector('.mock-window');
+  if (mock){
+    var tl = gsap.timeline({
+      scrollTrigger:{trigger:'.mock-wrap', start:'top 72%', once:true}
+    });
+    tl.from(mock, {y:22, opacity:0, scale:.98, duration:.9, ease:'expo.out'}, 0)
+      .from('.mock-side > *', {x:-12, opacity:0, stagger:.04, duration:.55, ease:'expo.out'}, .3)
+      .from('.mock-greet', {opacity:0, y:10, duration:.6, ease:'expo.out'}, .45)
+      .from('.mring', {y:16, opacity:0, stagger:.08, duration:.7, ease:'expo.out'}, .55);
+    /* 링 드로잉 + 숫자 1회 트윈 (카운트업 남발 금지 - 여기 한 번만) */
+    var CIRC = 263.9;
+    document.querySelectorAll('.mring').forEach(function(ring, i){
+      var c = ring.querySelector('.val'), n = ring.querySelector('.num');
+      var target = +n.dataset.v, at = .95 + i*.12;
+      tl.set(c, {strokeDashoffset:CIRC}, 0);
+      tl.set(n, {textContent:'0%'}, 0);
+      tl.to(c, {strokeDashoffset:CIRC*(1-target/100), duration:1.1, ease:'power2.out'}, at);
+      var o = {v:0};
+      tl.to(o, {v:target, duration:1.1, ease:'power2.out', onUpdate:function(){
+        n.textContent = Math.round(o.v) + '%';
+      }}, at);
+    });
+    tl.from('.mclean-row', {opacity:0, y:8, stagger:.07, duration:.55, ease:'expo.out'}, 1.45)
+      .from('.mock-boost', {opacity:0, scale:.97, duration:.6, ease:'expo.out'}, 1.75)
+      .from('.mock-note', {opacity:0, duration:.5, ease:'power2.out'}, 1.95);
+  }
+
+  /* ── 섹션 헤딩: 마스크 슬라이드업 통일 (overflow 래퍼) ── */
+  function maskHeads(sel){
+    gsap.utils.toArray(sel).forEach(function(h){
+      var wrap = document.createElement('span'), inner = document.createElement('span');
+      wrap.style.cssText = 'display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em';
+      inner.style.display = 'block';
+      while (h.firstChild) inner.appendChild(h.firstChild);
+      wrap.appendChild(inner); h.appendChild(wrap);
+      gsap.from(inner, {yPercent:118, duration:.95, ease:'power4.out',
+        scrollTrigger:{trigger:h, start:'top 87%', once:true}});
+    });
+  }
+  maskHeads('.sec-head h2, .s4-head h2');
+  reveal('.sec-head p, .s4-head p', {y:14, duration:.6, delay:.1});
+
+  /* ── 씬4 이후 · 오케스트레이션 ── */
+  revealGrid('.facts', '.fact', .07);
+  reveal('.rows .row', {y:18, duration:.7});
+  revealGrid('.cards', '.card', .08);
+
+  /* 보안 패널: 좌우 슬라이드 인 */
+  gsap.utils.toArray('.sec-split').forEach(function(g){
+    var kids = g.children;
+    if (kids[0]) gsap.from(kids[0], {x:-20, opacity:0, duration:.85, ease:'expo.out',
+      scrollTrigger:{trigger:g, start:'top 80%', once:true}});
+    if (kids[1]) gsap.from(kids[1], {x:20, opacity:0, duration:.85, ease:'expo.out', delay:.08,
+      scrollTrigger:{trigger:g, start:'top 80%', once:true}});
+  });
+
+  /* 한국특화 3셀 캐스케이드 · 25 그리드 순차 스태거 */
+  revealGrid('.kr', '.cell', .09);
+  revealGrid('.all-grid', '.tool', .045);
+  revealGrid('.safety', '.srule', .09);
+
+  /* 다운로드 피날레: 카드 라이즈 + 주 CTA 1회 강조 */
+  gsap.utils.toArray('.dl-grid').forEach(function(g){
+    var tl = gsap.timeline({scrollTrigger:{trigger:g, start:'top 82%', once:true}});
+    tl.from(g.querySelectorAll('.plat'), {y:22, opacity:0, stagger:.09, duration:.85, ease:'expo.out'});
+    var cta = g.querySelector('.btn-primary');
+    if (cta) tl.fromTo(cta, {scale:1}, {scale:1.045, duration:.26, ease:'power2.inOut', yoyo:true, repeat:1}, '-=.1');
+  });
+  reveal('.dl-foot', {y:12, duration:.6});
+})();
+</script>
+</body>
+</html>
