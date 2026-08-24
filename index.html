@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="canonical" href="https://worldclasskangheungbo.github.io/gyeol-releases/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GYEOL | 맥·윈도우 시스템 관리 앱">
+<meta property="og:description" content="청소·모니터링·배터리·보안에 숨은돈 공식 조회처까지 26개 도구. 무료이고, 데이터를 수집하지 않습니다.">
+<meta property="og:url" content="https://worldclasskangheungbo.github.io/gyeol-releases/">
+<meta property="og:image" content="https://worldclasskangheungbo.github.io/gyeol-releases/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GYEOL | 맥·윈도우 시스템 관리 앱">
+<meta name="twitter:image" content="https://worldclasskangheungbo.github.io/gyeol-releases/og.png">
+<title>GYEOL | 맥·윈도우 시스템 관리</title>
+<meta name="description" content="맥·윈도우 시스템 관리 앱 GYEOL. 청소·모니터링·배터리·보안까지 26개 도구. 무료이고, 데이터를 수집하지 않습니다.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%235856D6'/%3E%3Crect x='20' y='20' width='24' height='24' rx='5' fill='none' stroke='white' stroke-width='3.5'/%3E%3Cpath d='M26 12v8M32 12v8M38 12v8M26 44v8M32 44v8M38 44v8M12 26h8M12 32h8M12 38h8M44 26h8M44 32h8M44 38h8' stroke='white' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" integrity="sha384-GIdEBaqGN9mNkDkMkzMHW8EKUqtpPIe/sLj1X7DIrnc9uPtLROJgmuDlh+3rBw0j" crossorigin="anonymous">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --bg:#ffffff;
+  --soft:#f8f9fb;      /* 섹션·카드 소프트 그레이 */
+  --soft2:#f2f4f6;     /* 보조 버튼·칩 */
+  --line:#e8ebee;
+  --ink:#191f28;
+  --mut:#4e5968;
+  --faint:#6b7684;     /* 캡션 - 흰 배경 대비 4.8:1 (WCAG AA) */
+  --accent:#5856D6;
+  --accent-d:#4a48c4;
+  --accent-weak:rgba(88,86,214,.08);
+  --mono:"Geist Mono",ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --r:20px;
+  --r-s:14px;
+  --ease:cubic-bezier(.22,1,.36,1); /* 토스 톤 이징 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+/* 고정 nav(60px) 아래로 앵커 랜딩 보정 (네이티브 폴백용) */
+[id]{scroll-margin-top:72px}
+/* Lenis 권장 CSS (공식 문서 정본) */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+body{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+  color:var(--ink);background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+  font-size:16px;line-height:1.6;
+  word-break:keep-all;overflow-wrap:break-word;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent-weak);color:var(--ink)}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:0}
+.wrap{width:min(1040px,calc(100% - 48px));margin:0 auto}
+
+/* ── 네비게이션 ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;height:60px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(232,235,238,.7);
+}
+.nav-in{width:min(1040px,calc(100% - 48px));margin:0 auto;height:100%;display:flex;align-items:center;gap:26px}
+
+/* ── 워드마크 "GYEOL." ── */
+.wm{
+  font-weight:800;letter-spacing:-.055em;line-height:1;
+  font-size:19px;display:inline-flex;align-items:baseline;
+  font-feature-settings:"ss01";
+}
+.wm .dot{color:var(--accent);margin-left:.02em}
+.wm-s{font-weight:800;letter-spacing:-.05em;font-size:12.5px}
+.wm-s .dot{color:var(--accent)}
+
+.nav-links{display:flex;gap:24px;margin-left:auto;font-size:14px;font-weight:500;color:var(--mut)}
+.nav-links a{transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{
+  font-size:13.5px;font-weight:700;color:#fff;background:var(--accent);
+  padding:9px 16px;border-radius:10px;
+  transition:background .15s,transform .25s var(--ease);
+}
+.nav-cta:hover{background:var(--accent-d);transform:translateY(-1px);transition:background .15s,transform .35s var(--ease)}
+.nav-cta:active{transform:translateY(1px)}
+.lang-btn{
+  font-size:12px;font-weight:700;color:var(--mut);background:var(--soft2);
+  border:none;cursor:pointer;padding:8px 13px;border-radius:10px;
+  font-family:inherit;letter-spacing:.04em;line-height:1;
+  transition:background .15s,color .15s;
+}
+.lang-btn:hover{background:#e8ebef;color:var(--ink)}
+@media (max-width:720px){.nav-links{display:none}.lang-btn{margin-left:auto}}
+
+/* ── 버튼 ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:var(--r-s);font-weight:700;font-size:15px;
+  padding:14px 26px;border:none;cursor:pointer;
+  transition:background .15s,transform .25s var(--ease);
+}
+.btn:hover{transform:translateY(-1.5px);transition:background .15s,transform .35s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{color:#fff;background:var(--accent)}
+.btn-primary:hover{background:var(--accent-d)}
+.btn-soft{color:var(--ink);background:var(--soft2)}
+.btn-soft:hover{background:#e8ebef}
+.btn-big{font-size:17px;padding:17px 32px;border-radius:16px}
+
+/* 마스크 슬라이드업 래퍼 (clip-path 금지 - overflow 방식) */
+.ml{display:block;overflow:hidden;padding-bottom:.07em;margin-bottom:-.07em}
+.ml > span{display:inline-block}
+
+/* ── 히어로: 첫 화면 = 설치 전환 ── */
+.hero{padding:150px 0 0;text-align:center}
+.hero-h{
+  font-size:clamp(48px,9vw,96px);font-weight:800;letter-spacing:-.048em;line-height:1.05;
+  text-wrap:balance;
+}
+.hero-h .stop{color:var(--accent)}
+.hero-sub{
+  margin:26px auto 0;max-width:640px;
+  font-size:clamp(16.5px,2vw,20px);line-height:1.62;color:var(--mut);text-wrap:balance;
+}
+.hero-ctas{display:flex;gap:12px;margin-top:38px;justify-content:center;flex-wrap:wrap}
+.hero-trust{margin-top:24px;font-size:14.5px;font-weight:500;color:var(--mut)}
+.hero-trust .d{color:#c6cdd4;margin:0 7px}
+.hero-meta{margin-top:8px;font-size:12.5px;color:var(--faint);font-family:var(--mono);letter-spacing:0}
+@media (max-width:560px){
+  .hero{padding-top:124px}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .hero-ctas .btn{width:min(100%,340px)}
+}
+
+/* 히어로 로드 연출 (CSS 전용 - JS·CDN 실패에도 첫 화면은 무조건 뜬다) */
+@media (prefers-reduced-motion: no-preference){
+  .js .nav-wm{opacity:0;animation:fadeUp .6s var(--ease) .05s forwards}
+  .js .nav-wm .dot{display:inline-block;transform:scale(0);transform-origin:40% 80%;animation:dotPop .5s cubic-bezier(.34,1.56,.64,1) .55s forwards}
+  .js .hero .ml > span{transform:translateY(118%);animation:rise .9s var(--ease) forwards}
+  .js .hero .ml:nth-child(1) > span{animation-delay:.08s}
+  .js .hero .ml:nth-child(2) > span{animation-delay:.2s}
+  .js .hero-sub,.js .hero-ctas,.js .hero-trust,.js .hero-meta,
+  .js .hero .mock-wrap,.js .hero .mock-note{opacity:0;animation:fadeUp .85s var(--ease) forwards}
+  .js .hero-sub{animation-delay:.34s}
+  .js .hero-ctas{animation-delay:.46s}
+  .js .hero-trust{animation-delay:.58s}
+  .js .hero-meta{animation-delay:.64s}
+  .js .hero .mock-wrap{animation-delay:.52s;animation-duration:1.05s}
+  .js .hero .mock-note{animation-delay:.8s}
+}
+@keyframes rise{to{transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes dotPop{to{transform:scale(1)}}
+
+/* ── 앱 목업 (히어로 하단 피크) ── */
+.mock-wrap{margin:68px auto 0;width:min(960px,calc(100% - 40px))}
+.mock-window{
+  border-radius:var(--r);overflow:hidden;text-align:left;
+  background:#fff;
+  border:1px solid var(--line);
+  box-shadow:0 30px 70px -18px rgba(25,31,40,.14);
+}
+.mock-titlebar{
+  height:42px;display:flex;align-items:center;gap:7px;padding:0 15px;
+  background:#fcfcfd;border-bottom:1px solid var(--soft2);
+}
+.tl{width:11px;height:11px;border-radius:50%}
+.tl.r{background:#FF5F57}.tl.y{background:#FEBC2E}.tl.g{background:#28C840}
+.mock-title{flex:1;text-align:center;font-size:12px;color:var(--faint);font-weight:500;margin-right:47px}
+.mock-body{display:grid;grid-template-columns:200px 1fr;min-height:440px}
+.mock-side{
+  background:#fbfbfc;border-right:1px solid var(--soft2);
+  padding:14px 10px;font-size:12.5px;
+}
+.mock-brand{display:flex;align-items:center;padding:4px 8px 12px}
+.mock-cap{font-size:10.5px;font-weight:600;color:var(--faint);letter-spacing:.05em;padding:10px 10px 5px}
+.mock-item{
+  display:flex;align-items:center;gap:8px;padding:5.5px 10px;border-radius:8px;
+  color:var(--mut);font-weight:500;margin:1px 0;
+}
+.mock-item i{width:6px;height:6px;border-radius:2px;background:#d4d9de;flex:none}
+.mock-item.on{background:var(--accent-weak);color:var(--accent);font-weight:600}
+.mock-item.on i{background:var(--accent)}
+.mock-item.dim{color:var(--faint);font-size:11.5px}
+.mock-main{padding:24px 28px}
+.mock-greet{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.mock-greet span{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:3px}
+.mock-rings{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap}
+.mring{
+  flex:1;min-width:140px;background:var(--soft);
+  border-radius:var(--r-s);padding:16px 12px;text-align:center;
+}
+.mring svg{width:84px;height:84px;margin:0 auto}
+.mring .track{fill:none;stroke:#e9ecef;stroke-width:8}
+.mring .val{fill:none;stroke:#3f4650;stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%}
+.mring .num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:17px;font-weight:600;margin-top:-54px;margin-bottom:32px}
+.mring .lab{font-size:12px;color:var(--mut);font-weight:500;margin-top:8px}
+.mock-clean{
+  margin-top:16px;background:var(--soft);
+  border-radius:var(--r-s);padding:4px 16px;
+}
+.mclean-row{display:flex;align-items:center;gap:10px;padding:9px 2px;font-size:12.5px;font-weight:500;border-bottom:1px solid #eef0f3}
+.mclean-row:last-child{border-bottom:none}
+.mclean-row .sw{width:8px;height:8px;border-radius:2.5px;background:#d4d9de;flex:none}
+.mclean-row b{margin-left:auto;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;font-size:12px;color:var(--mut)}
+.mock-boost{
+  margin-top:14px;display:block;width:100%;text-align:center;color:#fff;font-weight:700;font-size:13.5px;
+  padding:12px;border-radius:12px;background:var(--accent);border:none;cursor:default;
+  font-family:inherit;
+}
+.mock-note{text-align:center;font-size:12px;color:var(--faint);margin-top:16px}
+@media (max-width:720px){
+  .mock-body{grid-template-columns:1fr}
+  .mock-side{display:none}
+}
+
+/* ── 섹션 공통: 한 화면 = 한 메시지 ── */
+section.scene{padding:clamp(88px,11vw,150px) 0}
+section.scene.soft{background:var(--soft)}
+.sec-head{text-align:center}
+.sec-head h2{
+  font-size:clamp(28px,4.4vw,46px);font-weight:800;letter-spacing:-.035em;line-height:1.22;
+  text-wrap:balance;
+}
+.sec-head p{
+  margin:16px auto 0;max-width:560px;
+  font-size:clamp(15.5px,1.8vw,17.5px);line-height:1.65;color:var(--mut);text-wrap:balance;
+}
+
+/* 초대형 스테이트먼트 */
+.giant{
+  font-size:clamp(38px,6.8vw,84px);font-weight:800;letter-spacing:-.045em;line-height:1.1;
+  text-align:center;text-wrap:balance;
+  width:min(980px,calc(100% - 48px));margin:0 auto;
+}
+.giant .quiet{color:#adb5bd}
+.giant .stop{color:var(--accent)}
+.stmt-sub{
+  margin:22px auto 0;max-width:560px;text-align:center;
+  font-size:clamp(16px,1.9vw,19px);line-height:1.65;color:var(--mut);text-wrap:balance;
+}
+
+/* ── 쌓이는 것들 ── */
+.pile{margin:52px auto 0;width:min(640px,calc(100% - 48px));display:flex;flex-direction:column;gap:10px}
+.pile-row{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border-radius:var(--r-s);
+  padding:17px 22px;font-size:15px;font-weight:600;
+  box-shadow:0 1px 2px rgba(25,31,40,.04);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.pile-row:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px rgba(25,31,40,.1);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.pile-row span{margin-left:auto;font-size:13px;font-weight:400;color:var(--faint)}
+.pile-row .sq{width:8px;height:8px;border-radius:2.5px;background:#d4d9de;flex:none;margin:0}
+.pile-row.money{box-shadow:inset 3px 0 0 var(--accent),0 1px 2px rgba(25,31,40,.04)}
+.pile-row.money .sq{background:var(--accent)}
+
+/* ── 되찾는 것들 ── */
+.scrub-words span{display:inline-block}
+.regain{
+  margin:56px auto 0;width:min(1040px,calc(100% - 48px));
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:left;
+}
+.regain .cell{background:var(--soft);border-radius:var(--r);padding:32px 30px}
+.regain b{display:block;font-size:18px;font-weight:700;letter-spacing:-.02em}
+.regain p{margin-top:10px;font-size:15px;color:var(--mut);line-height:1.65}
+@media (max-width:860px){.regain{grid-template-columns:1fr}}
+
+/* ── 팩트 스트립 ── */
+.facts{
+  margin:52px auto 0;width:min(1040px,calc(100% - 48px));
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+}
+.fact{background:var(--soft);border-radius:var(--r);padding:28px 26px;text-align:left}
+.fact b{display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:30px;font-weight:700;letter-spacing:-.02em}
+.fact span{display:block;margin-top:7px;font-size:14px;color:var(--mut)}
+@media (max-width:860px){.facts{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.facts{grid-template-columns:1fr}}
+
+/* ── 기능 행 리스트 (소프트 카드 스택) ── */
+.rows{margin:48px auto 0;display:grid;gap:12px}
+.row{
+  display:grid;grid-template-columns:220px 1fr;gap:22px;
+  background:var(--soft);border-radius:var(--r);padding:28px 32px;
+  text-align:left;
+}
+.soft .row{background:#fff;box-shadow:0 1px 2px rgba(25,31,40,.04)}
+.row h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.row p{font-size:15px;color:var(--mut);line-height:1.65}
+@media (max-width:720px){.row{grid-template-columns:1fr;gap:8px;padding:24px}}
+
+/* ── 카드 그리드 ── */
+.cards{margin:48px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left}
+.card{
+  background:#fff;border-radius:var(--r);padding:30px;
+  box-shadow:0 1px 2px rgba(25,31,40,.04);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px -8px rgba(25,31,40,.1);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.card h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.card p{margin-top:9px;font-size:14.5px;color:var(--mut);line-height:1.65}
+.card-wide{grid-column:1 / -1;display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:start}
+.card-wide p{margin-top:0}
+@media (max-width:720px){
+  .cards{grid-template-columns:1fr}
+  .card-wide{grid-template-columns:1fr;gap:8px}
+}
+
+/* ── 보안 ── */
+.sec-split{margin:48px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;text-align:left}
+.sec-list{display:grid;gap:12px}
+.panel{background:#fff;border-radius:var(--r);padding:30px;box-shadow:0 1px 2px rgba(25,31,40,.04)}
+.panel h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.panel .p-d{margin-top:9px;font-size:14.5px;color:var(--mut);line-height:1.65}
+.panel .fine{margin-top:18px;font-size:13.5px;color:var(--faint);line-height:1.6}
+.panel .cap{font-size:13px;font-weight:700;color:var(--faint);margin-bottom:12px}
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.chk span{
+  font-size:13px;font-weight:500;color:var(--mut);
+  border-radius:99px;padding:7px 13px;background:var(--soft2);
+}
+@media (max-width:860px){.sec-split{grid-template-columns:1fr}}
+
+/* ── 한국 특화 ── */
+.kr{margin:48px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left}
+.kr .cell{background:var(--soft);border-radius:var(--r);padding:30px}
+.kr h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.kr p{margin-top:9px;font-size:14.5px;color:var(--mut);line-height:1.65}
+.kr .cell.wide{grid-column:1/-1}
+@media (max-width:860px){.kr{grid-template-columns:1fr}}
+
+/* ── 전체 26 그리드 ── */
+.all-grid{margin:48px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:left}
+.tool{
+  background:#fff;border-radius:var(--r-s);padding:20px 18px;
+  box-shadow:0 1px 2px rgba(25,31,40,.04);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.tool:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px rgba(25,31,40,.09);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.tool h4{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.tool p{margin-top:6px;font-size:12.5px;color:var(--faint);line-height:1.55}
+@media (max-width:1024px){.all-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.all-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:440px){.all-grid{grid-template-columns:1fr}}
+
+/* ── 안전 원칙 ── */
+.safety{margin:48px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:left}
+.srule{background:var(--soft);border-radius:var(--r);padding:28px 26px}
+.srule .n{font-family:var(--mono);font-size:12.5px;color:var(--faint);letter-spacing:0}
+.srule h3{margin-top:10px;font-size:16px;font-weight:700;letter-spacing:-.02em}
+.srule p{margin-top:8px;font-size:14px;color:var(--mut);line-height:1.6}
+@media (max-width:860px){.safety{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.safety{grid-template-columns:1fr}}
+
+/* ── 다운로드 ── */
+.dl-grid{margin:48px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left}
+.plat{
+  background:#fff;border-radius:var(--r);padding:34px 30px;
+  display:flex;flex-direction:column;
+  box-shadow:0 1px 2px rgba(25,31,40,.04);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.plat:hover{transform:translateY(-2px);box-shadow:0 12px 30px -10px rgba(25,31,40,.12);transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.plat h3{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.plat .desc{margin-top:9px;font-size:14px;color:var(--mut);line-height:1.6}
+.plat .btn{margin-top:22px;width:100%}
+.plat .note{margin-top:13px;font-size:12.5px;color:var(--faint);line-height:1.6}
+.dl-foot{margin-top:26px;font-size:13.5px;color:var(--mut);text-align:center}
+.dl-foot + .dl-foot{margin-top:6px}
+@media (max-width:900px){.dl-grid{grid-template-columns:1fr}}
+
+/* ── 푸터 ── */
+footer{border-top:1px solid var(--soft2);padding:32px 0 44px}
+.foot{
+  width:min(1040px,calc(100% - 48px));margin:0 auto;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--faint);
+}
+.foot .wm{font-size:15px;color:var(--ink)}
+.foot .right{margin-left:auto;display:flex;gap:18px}
+.foot .right a{color:var(--mut);transition:color .15s}
+.foot .right a:hover{color:var(--ink)}
+@media (max-width:720px){.foot{flex-direction:column;align-items:flex-start}.foot .right{margin-left:0}}
+</style>
+</head>
+<body>
+
+<nav aria-label="주 메뉴">
+  <div class="nav-in">
+    <a class="wm nav-wm" href="#top">GYEOL<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="#dash">모니터링</a>
+      <a href="#clean">정리</a>
+      <a href="#security">보안</a>
+      <a href="#all">전체 기능</a>
+    </div>
+    <button class="lang-btn" id="langToggle" type="button" aria-label="Switch to English">EN</button>
+    <a class="nav-cta" href="#download">다운로드</a>
+  </div>
+</nav>
+
+<!-- 첫 화면: 가치 제안 + 즉시 다운로드 + 목업 피크 -->
+<header class="hero" id="top">
+  <h1 class="hero-h">
+    <span class="ml"><span>컴퓨터 관리의</span></span>
+    <span class="ml"><span>모든 것<span class="stop">.</span></span></span>
+  </h1>
+  <p class="hero-sub">느려진 컴퓨터부터 잠자는 내 돈까지.<br>
+  26개 도구, 전부 무료.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-primary btn-big" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL.dmg">macOS용 다운로드</a>
+    <a class="btn btn-soft btn-big" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL-Windows-beta.zip">Windows용 다운로드</a>
+  </div>
+  <p class="hero-trust">무료<span class="d">·</span>데이터 수집 없음<span class="d">·</span>광고 없음</p>
+  <p class="hero-meta">macOS 14+ · Windows 10/11 · Android 8+ 베타</p>
+
+  <div class="mock-wrap">
+    <div class="mock-window">
+      <div class="mock-titlebar"><span class="tl r"></span><span class="tl y"></span><span class="tl g"></span><span class="mock-title">GYEOL</span></div>
+      <div class="mock-body">
+        <aside class="mock-side">
+          <div class="mock-brand"><span class="wm-s">GYEOL<span class="dot">.</span></span></div>
+          <div class="mock-cap">대시보드</div>
+          <div class="mock-item on"><i></i>홈</div>
+          <div class="mock-item"><i></i>스마트 점검</div>
+          <div class="mock-item"><i></i>모니터</div>
+          <div class="mock-item"><i></i>배터리 &amp; 기기</div>
+          <div class="mock-item"><i></i>네트워크</div>
+          <div class="mock-cap">정리</div>
+          <div class="mock-item"><i></i>딥 클린</div>
+          <div class="mock-item"><i></i>디스크 정리</div>
+          <div class="mock-item"><i></i>중복 파일</div>
+          <div class="mock-item"><i></i>앱 정리</div>
+          <div class="mock-cap">시스템</div>
+          <div class="mock-item"><i></i>프로세스</div>
+          <div class="mock-item"><i></i>보안</div>
+          <div class="mock-item"><i></i>도구상자</div>
+          <div class="mock-item dim">+ 13개 탭 더</div>
+        </aside>
+        <main class="mock-main">
+          <div class="mock-greet">한눈에 보는 내 맥의 건강 <span>메모리 · 디스크 · 배터리를 실시간으로</span></div>
+          <div class="mock-rings">
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="110.8"/></svg>
+              <div class="num" data-v="58">58%</div>
+              <div class="lab">메모리</div>
+            </div>
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="179.5"/></svg>
+              <div class="num" data-v="32">32%</div>
+              <div class="lab">디스크</div>
+            </div>
+            <div class="mring">
+              <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42"/><circle class="val" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="42.2"/></svg>
+              <div class="num" data-v="84">84%</div>
+              <div class="lab">배터리</div>
+            </div>
+          </div>
+          <div class="mock-clean">
+            <div class="mclean-row"><span class="sw"></span>사용자 캐시<b>1.2 GB</b></div>
+            <div class="mclean-row"><span class="sw"></span>로그 파일<b>240 MB</b></div>
+            <div class="mclean-row"><span class="sw"></span>휴지통<b>3.4 GB</b></div>
+          </div>
+          <button class="mock-boost" type="button" tabindex="-1">부스트 · 한 번에 정리</button>
+        </main>
+      </div>
+    </div>
+    <p class="mock-note">실제 앱 화면을 재현한 데모입니다 · 수치는 예시</p>
+  </div>
+</header>
+
+<!-- 문제 -->
+<section class="scene stmt">
+  <h2 class="giant">컴퓨터는 <span class="quiet">조용히</span><br>느려집니다</h2>
+  <p class="stmt-sub">쓰던 대로 썼을 뿐인데요.</p>
+</section>
+
+<!-- 쌓이는 것들 -->
+<section class="scene soft">
+  <div class="sec-head">
+    <h2>보이지 않는 곳에서<br>이런 것들이 쌓입니다</h2>
+    <p>캐시, 로그, 앱이 남긴 잔여물. 그리고 잊고 지낸 돈까지.
+    조금씩, 그러나 확실하게 자리를 차지합니다.</p>
+  </div>
+  <div class="pile">
+    <div class="pile-row"><span class="sq"></span>사용자 캐시<span>~/Library</span></div>
+    <div class="pile-row"><span class="sq"></span>로그 파일<span>오래된 기록</span></div>
+    <div class="pile-row"><span class="sq"></span>임시·진단 캐시<span>브라우저 · 개발 도구</span></div>
+    <div class="pile-row"><span class="sq"></span>오래된 다운로드<span>잊힌 파일</span></div>
+    <div class="pile-row"><span class="sq"></span>앱 잔여물<span>지워도 남는 것</span></div>
+    <div class="pile-row"><span class="sq"></span>중복 파일<span>내용이 똑같은 사본</span></div>
+    <div class="pile-row money"><span class="sq"></span>잊힌 돈<span>휴면예금 · 미환급금</span></div>
+  </div>
+</section>
+
+<!-- 되찾는 것들 -->
+<section class="scene">
+  <h2 class="giant scrub-words">
+    <span>버튼</span> <span>하나로,</span><br><span>몇</span> <span>기가가</span> <span>돌아옵니다</span>
+  </h2>
+  <div class="regain">
+    <div class="cell">
+      <b>저장공간</b>
+      <p>캐시·로그·휴지통·중복 파일까지. 부스트 한 번으로 정리하고, 자동 정리 예약도 걸어둘 수 있습니다.</p>
+    </div>
+    <div class="cell">
+      <b>잠든 돈</b>
+      <p>휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳으로 바로 안내합니다.</p>
+    </div>
+    <div class="cell">
+      <b>되돌릴 수 있는 안심</b>
+      <p>모든 삭제는 영구 삭제가 아니라 휴지통 이동. 확인 절차를 거치고, 사용자 영역만 건드립니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 신뢰 팩트 -->
+<section class="scene" id="facts">
+  <div class="sec-head">
+    <h2>전부 기본, 전부 무료</h2>
+    <p>숨은 결제도, 광고도, 데이터 수집도 없습니다.</p>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>26</b><span>내장 도구 · 전부 기본 포함</span></div>
+    <div class="fact"><b>0</b><span>데이터 수집 · 광고</span></div>
+    <div class="fact"><b>휴지통</b><span>삭제는 휴지통 이동 · 되돌리기 가능</span></div>
+    <div class="fact"><b>무료</b><span>macOS 14+ · Windows 10/11</span></div>
+  </div>
+</section>
+
+<section class="scene" id="dash">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>시스템 상태를<br>그대로 보여줍니다</h2>
+      <p>CPU·GPU·메모리·디스크·네트워크를 시스템 API로 직접 측정합니다.
+      외부 도구 없이, 실시간으로.</p>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <h3>모니터</h3>
+        <p>CPU 코어별 부하, GPU 사용률, 메모리 분해(활성·고정·압축), 디스크, 네트워크 스파크라인을 한 화면에서 봅니다.</p>
+      </div>
+      <div class="row">
+        <h3>배터리 &amp; 기기</h3>
+        <p>사이클·풀충전 용량·온도·전압·어댑터 와트를 실측합니다. 24시간 충전 습관 차트와 에어팟·마우스·키보드 배터리도 함께.</p>
+      </div>
+      <div class="row">
+        <h3>Wi-Fi 진단</h3>
+        <p>신호(RSSI)·노이즈·SNR·연결 속도·채널을 실측하고, 주변 채널 혼잡도를 스캔해 한산한 채널을 추천합니다.</p>
+      </div>
+      <div class="row">
+        <h3>인터넷 속도 측정</h3>
+        <p>핑·다운로드·업로드를 공개 측정 서버로 실측합니다. 앱별 트래픽 사용량도 함께 봅니다.</p>
+      </div>
+      <div class="row">
+        <h3>스마트 점검</h3>
+        <p>메모리·디스크·캐시·휴지통·시작 프로그램을 종합 점검하고, 문제 항목으로 바로 이동합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene soft" id="clean">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>정리는 되돌릴 수<br>있어야 합니다</h2>
+      <p>캐시·로그·휴지통·중복 파일·앱 잔여물까지. 모든 정리는 사용자 영역만 건드리고,
+      삭제 대신 휴지통으로 이동합니다.</p>
+    </div>
+    <div class="cards">
+      <div class="card card-wide">
+        <h3>부스트</h3>
+        <p>사용자 캐시·로그·휴지통을 한 번에 정리합니다. 일·주·월 단위 백그라운드 자동 정리 예약도 지원합니다.</p>
+      </div>
+      <div class="card">
+        <h3>딥 클린</h3>
+        <p>브라우저·개발 도구·Xcode·임시·진단 캐시를 카테고리별로 심층 정리하고, 오래된 다운로드도 찾아냅니다.</p>
+      </div>
+      <div class="card">
+        <h3>중복 파일</h3>
+        <p>SHA-256 해시로 내용이 똑같은 파일을 찾아 한 개만 남기고 정리합니다. 부분 해시로 거른 뒤 전체 해시로 재검증하고, 비슷한 사진(dHash)도 찾아냅니다.</p>
+      </div>
+      <div class="card">
+        <h3>앱 정리</h3>
+        <p>앱을 지워도 남는 잔여물(설정·캐시·지원 파일)까지 함께 제거합니다.</p>
+      </div>
+      <div class="card">
+        <h3>대용량 파일</h3>
+        <p>100MB 이상 파일을 타입별로 스캔해 Finder에서 열거나 휴지통으로 보냅니다.</p>
+      </div>
+      <div class="card">
+        <h3>저장공간 탐색</h3>
+        <p>폴더별 용량을 트리맵으로 시각화하고 드릴다운합니다. 어디가 무거운지 한눈에 보입니다.</p>
+      </div>
+      <div class="card">
+        <h3>폴더 정리 + 압축</h3>
+        <p>다운로드·데스크탑을 이미지·문서·영상별로 자동 분류합니다. 정리 직후 되돌리기도 지원합니다. ZIP·TAR.GZ 압축과 해제(암호 지원)까지.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="daily">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>매일 쓰게 되는 도구들</h2>
+      <p>스크린샷 OCR, 클립보드 히스토리, 창 스냅, 맥 응급처치.
+      하루에도 몇 번씩 쓰는 도구들을 담았습니다.</p>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <h3>스크린샷 + OCR</h3>
+        <p>전체·영역·창 캡처(PNG·JPG·PDF)에 더해, 화면 속 글자를 온디바이스 Vision으로 추출합니다(한·영). 화면 속 QR코드도 바로 인식합니다. 펜·화살표·도형 주석 오버레이도 캡처에 그대로 담깁니다.</p>
+      </div>
+      <div class="row">
+        <h3>창 스냅</h3>
+        <p>다른 앱 창을 좌/우 절반·최대화·가운데로 정렬합니다. 전역 단축키 ⌃⌥ + 방향키로 어디서든.</p>
+      </div>
+      <div class="row">
+        <h3>클립보드 히스토리</h3>
+        <p>복사한 텍스트 50개·이미지 10개를 검색하고 클릭 한 번으로 재복사합니다. 메모리에만 보관하고 비밀번호 복사는 수집하지 않습니다.</p>
+      </div>
+      <div class="row">
+        <h3>도구상자</h3>
+        <p>Finder·Dock 재시작, DNS 플러시, Spotlight 재색인 같은 맥 응급처치와 숨은 설정 토글, 포트 점검·종료를 모았습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene soft" id="security">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>정직한 보안</h2>
+      <p>macOS 내장 보안 시스템의 실제 상태를 조회해 그대로 보여줍니다.
+      공포 마케팅으로 결제를 유도하지 않습니다.</p>
+    </div>
+    <div class="sec-split">
+      <div class="sec-list">
+        <div class="panel">
+          <h3>보안 상태 점검</h3>
+          <p class="p-d">시스템의 실제 값을 읽어 9개 항목을 점검합니다.</p>
+        </div>
+        <div class="panel">
+          <h3>멀웨어 정밀검사</h3>
+          <p class="p-d">임시 경로·숨김 폴더의 자동 실행 항목, 깨진 서명, 애드웨어 흔적을 휴리스틱으로 탐지하고 격리 보관함으로 옮깁니다. 원위치 기록과 함께 보관해 언제든 복원할 수 있고, 브라우저 확장 점검(조회·경고만)도 함께 제공합니다.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="cap">점검 항목</div>
+        <div class="chk">
+          <span>XProtect 버전</span>
+          <span>SIP</span>
+          <span>Gatekeeper</span>
+          <span>FileVault</span>
+          <span>방화벽</span>
+          <span>OS 업데이트</span>
+          <span>hosts 변조</span>
+          <span>구성 프로파일</span>
+          <span>자동 실행 항목</span>
+        </div>
+        <p class="fine">전부 시스템에 이미 있는 값을 조회하는 방식입니다. 앱이 별도 백신 엔진을 설치하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="kr">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>한국 사용자를 위한<br>다섯 가지</h2>
+      <p>개인정보는 입력받지 않고, 검증된 공식 조회처와 본인 기기 안에서만 동작합니다.</p>
+    </div>
+    <div class="kr">
+      <div class="cell wide">
+        <h3>서버에 절대 보내지 않는 가계부</h3>
+        <p>카드사·은행 명세서 CSV를 드래그하면 자동 분류되고, 월별 리포트로 봅니다. 내역은 이 컴퓨터의 로컬 파일에만 저장됩니다. 데이터는 이 컴퓨터를 떠나지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>숨겨진 돈 찾기</h3>
+        <p>휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳만 모았습니다. 개인정보는 입력받지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>NPKI 인증서 정리</h3>
+        <p>쌓인 공동인증서를 100% 온디바이스로 파싱해 만료 여부를 확인하고 정리합니다. 인증서 정보는 기기 밖으로 전송하지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>개인정보 관리</h3>
+        <p>가입 사이트 정리, 털린 내 정보 조회, 명의도용 방지. 검증된 정부·공식기관 서비스 바로가기만 제공하고, 앱은 개인정보를 저장하지 않습니다.</p>
+      </div>
+      <div class="cell">
+        <h3>포렌식</h3>
+        <p>사진 진위·기기 무결성·봉인 리포트를 확인합니다. 본인 기기에서만 동작합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene soft" id="all">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>26개의 도구, 하나의 앱</h2>
+      <p>사이드바의 모든 탭입니다. 전부 기본 포함이고, 추가 결제는 없습니다.</p>
+    </div>
+    <div class="all-grid">
+      <div class="tool"><h4>홈</h4><p>메모리·디스크 링 게이지, 배터리·가동시간, 스마트 정리 + 부스트</p></div>
+      <div class="tool"><h4>스마트 점검</h4><p>메모리·디스크·캐시·휴지통·시작 프로그램 종합 점검</p></div>
+      <div class="tool"><h4>모니터</h4><p>CPU 코어별·GPU·메모리 분해·디스크·네트워크 실시간 대시보드</p></div>
+      <div class="tool"><h4>배터리 &amp; 기기</h4><p>배터리 건강 실측 + 충전 습관 리포트 + 블루투스 기기 배터리</p></div>
+      <div class="tool"><h4>네트워크</h4><p>앱별 트래픽 + 속도 실측 + Wi-Fi 진단 + 채널 추천</p></div>
+      <div class="tool"><h4>딥 클린</h4><p>브라우저·개발도구·Xcode·임시·진단 캐시 심층 정리</p></div>
+      <div class="tool"><h4>중복 파일</h4><p>SHA-256 전체 해시 검증 중복 스캔 + 유사 사진(dHash) 탐지</p></div>
+      <div class="tool"><h4>앱 정리</h4><p>설치 앱 검색·정렬, 삭제 시 잔여물까지 동반 제거</p></div>
+      <div class="tool"><h4>대용량 파일</h4><p>100MB+ 파일 스캔, 타입 필터, Finder 열기·휴지통 이동</p></div>
+      <div class="tool"><h4>저장공간 탐색</h4><p>폴더별 용량 트리맵 시각화 + 드릴다운</p></div>
+      <div class="tool"><h4>폴더 정리</h4><p>다운로드·데스크탑을 이미지·문서·영상별 자동 분류, 되돌리기 지원</p></div>
+      <div class="tool"><h4>압축</h4><p>ZIP·TAR.GZ·BZ2·XZ 압축/해제, 암호 지원, 미리보기</p></div>
+      <div class="tool"><h4>디스크 정리</h4><p>모든 정리 소스를 모아 종합 원클릭 정리</p></div>
+      <div class="tool"><h4>프로세스</h4><p>메모리/CPU 상위 프로세스 실시간 조회·검색·안전 종료</p></div>
+      <div class="tool"><h4>시작 프로그램</h4><p>자동 실행 항목 조회·끄기, 언제든 복구 가능</p></div>
+      <div class="tool"><h4>보안</h4><p>SIP·Gatekeeper·FileVault 등 9항목 점검 + 멀웨어 정밀검사·격리 보관함</p></div>
+      <div class="tool"><h4>시스템 정보</h4><p>칩·코어·메모리·시리얼·디스크 SMART 등 하드웨어 상세</p></div>
+      <div class="tool"><h4>가계부</h4><p>카드사·은행 명세서 CSV 자동 분류·월별 리포트, 로컬 파일로만 저장</p></div>
+      <div class="tool"><h4>숨겨진 돈 찾기</h4><p>휴면예금·보험금·미환급금 정부 공식 조회처 모음</p></div>
+      <div class="tool"><h4>스크린샷</h4><p>전체/영역/창 캡처 + OCR(한·영)·QR 인식 + 주석</p></div>
+      <div class="tool"><h4>클립보드</h4><p>복사 히스토리 검색·재복사, 메모리만 보관</p></div>
+      <div class="tool"><h4>도구상자</h4><p>맥 응급처치 + 숨은 설정 토글 + 포트 점검·종료</p></div>
+      <div class="tool"><h4>창 스냅</h4><p>좌/우 절반·최대화·가운데 정렬, 전역 단축키</p></div>
+      <div class="tool"><h4>개인정보 관리</h4><p>가입 사이트 정리·털린 내 정보 등 공식 서비스 바로가기</p></div>
+      <div class="tool"><h4>포렌식</h4><p>사진 진위·기기 무결성·봉인 리포트, 본인 기기 전용</p></div>
+      <div class="tool"><h4>설정</h4><p>알림·메뉴바·자동 정리 예약·로그인 시 자동 실행</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="safety">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>빠르게 정리하되,<br>잃어버리지 않게</h2>
+    </div>
+    <div class="safety">
+      <div class="srule">
+        <div class="n">01</div>
+        <h3>삭제 전 반드시 확인</h3>
+        <p>부스트·휴지통 비우기·파일 삭제·프로세스 종료. 모든 파괴적 작업은 확인 다이얼로그를 거칩니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">02</div>
+        <h3>사용자 영역만</h3>
+        <p>캐시·로그 정리는 ~/Library 안에서만. 시스템 영역은 건드리지 않습니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">03</div>
+        <h3>휴지통으로 이동</h3>
+        <p>파일 삭제는 영구 삭제가 아니라 휴지통 이동. 언제든 되돌릴 수 있습니다.</p>
+      </div>
+      <div class="srule">
+        <div class="n">04</div>
+        <h3>사용 중 파일 보호</h3>
+        <p>앱이 쓰고 있는(잠긴) 캐시는 자동으로 건너뜁니다. 작업을 방해하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene soft" id="download">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>무료로 시작하세요</h2>
+      <p>설치 한 번으로 청소·모니터링·보안 점검까지.</p>
+    </div>
+    <div class="dl-grid">
+      <div class="plat">
+        <h3>macOS</h3>
+        <p class="desc">26개 도구 풀버전 · macOS 14+ · 유니버설 바이너리(Apple Silicon/Intel)</p>
+        <a class="btn btn-primary" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL.dmg">macOS용 다운로드</a>
+        <p class="note">최신 버전 · DMG 약 5MB · 첫 실행은 우클릭 → 열기</p>
+      </div>
+      <div class="plat">
+        <h3>Windows</h3>
+        <p class="desc">22개 도구 · Windows 10/11 64비트 · 설치 없이 압축 해제 후 실행</p>
+        <a class="btn btn-soft" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL-Windows-beta.zip">Windows용 다운로드</a>
+        <p class="note">베타 · ZIP 약 65MB · SmartScreen 경고 시 [추가 정보]→[실행]</p>
+      </div>
+      <div class="plat">
+        <h3>Android</h3>
+        <p class="desc">17개 도구 · Android 8+ · 외부 의존성 0, APK 약 54KB</p>
+        <a class="btn btn-soft" href="https://github.com/worldclasskangheungbo/gyeol-releases/releases/latest/download/GYEOL-Android-beta.apk">Android용 다운로드</a>
+        <p class="note">베타 · APK · 설치 시 출처 불명 앱 허용 필요</p>
+      </div>
+    </div>
+    <p class="dl-foot">iOS는 App Store 준비 중입니다.</p>
+    <p class="dl-foot">무료 · 모든 삭제는 확인 절차를 거치고 사용자 영역만 정리합니다</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <a class="wm" href="#top">GYEOL<span class="dot">.</span></a>
+    <span>© 2026 GYEOL · HBLAB. 100% 자체 구현, 타사 상표·에셋을 사용하지 않습니다.</span>
+    <div class="right">
+      <a href="#all">전체 기능</a>
+      <a href="#download">다운로드</a>
+      <a href="https://github.com/worldclasskangheungbo/gyeol-releases/issues" target="_blank" rel="noopener">문의·피드백</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── KO/EN 언어 토글 ──
+   방식: 텍스트 노드 사전 치환(TreeWalker). GSAP maskHeads가 헤딩을 래핑해도
+   텍스트 노드 자체는 이동만 되므로 언제 토글해도 안전하다.
+   - 원문은 노드 JS 속성(__ko)에 보관 → KO 복귀 시 무손실 복원
+   - 메타·OG·<title>은 한국어 유지(주 시장), html lang만 동적 전환
+   - localStorage 기억, 최초 방문은 navigator.language 자동 감지 */
+(function(){
+  var EN = {
+    /* nav · footer */
+    "모니터링":"Monitoring","정리":"Cleanup","보안":"Security","전체 기능":"All features","다운로드":"Download",
+    "문의·피드백":"Feedback",
+    "© 2026 GYEOL · HBLAB. 100% 자체 구현, 타사 상표·에셋을 사용하지 않습니다.":"© 2026 GYEOL · HBLAB. 100% built in-house — no third-party trademarks or assets.",
+    /* hero */
+    "컴퓨터 관리의":"Everything for","모든 것":"your computer",
+    "느려진 컴퓨터부터 잠자는 내 돈까지.":"From a slow computer to money you forgot.",
+    "26개 도구, 전부 무료.":"26 tools. All free.",
+    "macOS용 다운로드":"Download for macOS","Windows용 다운로드":"Download for Windows","Android용 다운로드":"Download for Android",
+    "무료":"Free","데이터 수집 없음":"No data collection","광고 없음":"No ads",
+    "macOS 14+ · Windows 10/11 · Android 8+ 베타":"macOS 14+ · Windows 10/11 · Android 8+ beta",
+    /* mock */
+    "대시보드":"Dashboard","홈":"Home","스마트 점검":"Smart Checkup","모니터":"Monitor",
+    "배터리 & 기기":"Battery & Devices","네트워크":"Network","딥 클린":"Deep Clean","디스크 정리":"Disk Cleanup",
+    "중복 파일":"Duplicate Files","앱 정리":"App Cleaner","시스템":"System","프로세스":"Processes",
+    "도구상자":"Toolbox","+ 13개 탭 더":"+ 13 more tabs",
+    "한눈에 보는 내 맥의 건강":"Your Mac's health at a glance",
+    "메모리 · 디스크 · 배터리를 실시간으로":"Memory · Disk · Battery, in real time",
+    "메모리":"Memory","디스크":"Disk","배터리":"Battery",
+    "사용자 캐시":"User caches","로그 파일":"Log files","휴지통":"Trash",
+    "부스트 · 한 번에 정리":"Boost · Clean up in one click",
+    "실제 앱 화면을 재현한 데모입니다 · 수치는 예시":"A demo recreating the actual app · numbers are illustrative",
+    /* 문제 스테이트먼트 */
+    "컴퓨터는":"Your computer","조용히":"quietly","느려집니다":"slows down",
+    "쓰던 대로 썼을 뿐인데요.":"You just used it like always.",
+    /* 쌓이는 것들 */
+    "보이지 않는 곳에서":"Things pile up","이런 것들이 쌓입니다":"where you can't see them",
+    "캐시, 로그, 앱이 남긴 잔여물. 그리고 잊고 지낸 돈까지. 조금씩, 그러나 확실하게 자리를 차지합니다.":"Caches, logs, leftovers apps leave behind — even money you forgot. Little by little, they take up space.",
+    "오래된 기록":"old records","임시·진단 캐시":"Temp & diagnostic caches","브라우저 · 개발 도구":"browsers · dev tools",
+    "오래된 다운로드":"Old downloads","잊힌 파일":"forgotten files","앱 잔여물":"App leftovers","지워도 남는 것":"what uninstalls leave",
+    "내용이 똑같은 사본":"identical copies","잊힌 돈":"Forgotten money","휴면예금 · 미환급금":"dormant deposits · unclaimed refunds",
+    /* 되찾는 것들 */
+    "버튼":"One","하나로,":"button,","몇":"gigabytes","기가가":"come","돌아옵니다":"back",
+    "저장공간":"Storage",
+    "캐시·로그·휴지통·중복 파일까지. 부스트 한 번으로 정리하고, 자동 정리 예약도 걸어둘 수 있습니다.":"Caches, logs, Trash, duplicates. One Boost cleans them up — and you can schedule automatic cleanups.",
+    "잠든 돈":"Sleeping money",
+    "휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳으로 바로 안내합니다.":"Dormant deposits, insurance payouts, card points, unclaimed refunds. Direct links to 9 official government lookup services.",
+    "되돌릴 수 있는 안심":"Peace of mind, reversible",
+    "모든 삭제는 영구 삭제가 아니라 휴지통 이동. 확인 절차를 거치고, 사용자 영역만 건드립니다.":"Every deletion goes to the Trash, never erased permanently. With confirmations, and only in your user space.",
+    /* 팩트 */
+    "전부 기본, 전부 무료":"All included, all free",
+    "숨은 결제도, 광고도, 데이터 수집도 없습니다.":"No hidden payments, no ads, no data collection.",
+    "내장 도구 · 전부 기본 포함":"built-in tools · all included","데이터 수집 · 광고":"data collection · ads",
+    "삭제는 휴지통 이동 · 되돌리기 가능":"deletions go to Trash · reversible",
+    /* 모니터링 */
+    "시스템 상태를":"See your system","그대로 보여줍니다":"as it really is",
+    "CPU·GPU·메모리·디스크·네트워크를 시스템 API로 직접 측정합니다. 외부 도구 없이, 실시간으로.":"CPU, GPU, memory, disk, and network — measured directly through system APIs. No external tools, in real time.",
+    "CPU 코어별 부하, GPU 사용률, 메모리 분해(활성·고정·압축), 디스크, 네트워크 스파크라인을 한 화면에서 봅니다.":"Per-core CPU load, GPU usage, memory breakdown (active · wired · compressed), disk, and network sparklines — all on one screen.",
+    "사이클·풀충전 용량·온도·전압·어댑터 와트를 실측합니다. 24시간 충전 습관 차트와 에어팟·마우스·키보드 배터리도 함께.":"Real measurements: cycles, full-charge capacity, temperature, voltage, adapter watts. Plus a 24-hour charging-habit chart and AirPods, mouse, and keyboard batteries.",
+    "Wi-Fi 진단":"Wi-Fi Diagnostics",
+    "신호(RSSI)·노이즈·SNR·연결 속도·채널을 실측하고, 주변 채널 혼잡도를 스캔해 한산한 채널을 추천합니다.":"Measures signal (RSSI), noise, SNR, link speed, and channel — then scans nearby congestion to recommend a quieter channel.",
+    "인터넷 속도 측정":"Internet Speed Test",
+    "핑·다운로드·업로드를 공개 측정 서버로 실측합니다. 앱별 트래픽 사용량도 함께 봅니다.":"Real ping, download, and upload tests against public servers. Per-app traffic usage included.",
+    "메모리·디스크·캐시·휴지통·시작 프로그램을 종합 점검하고, 문제 항목으로 바로 이동합니다.":"A full checkup of memory, disk, caches, Trash, and login items — jump straight to any problem.",
+    /* 정리 */
+    "정리는 되돌릴 수":"Cleanup should be","있어야 합니다":"reversible",
+    "캐시·로그·휴지통·중복 파일·앱 잔여물까지. 모든 정리는 사용자 영역만 건드리고, 삭제 대신 휴지통으로 이동합니다.":"Caches, logs, Trash, duplicates, app leftovers. Every cleanup touches only your user space — and moves files to the Trash instead of deleting them.",
+    "부스트":"Boost",
+    "사용자 캐시·로그·휴지통을 한 번에 정리합니다. 일·주·월 단위 백그라운드 자동 정리 예약도 지원합니다.":"Cleans user caches, logs, and Trash in one go. Schedule automatic background cleanups daily, weekly, or monthly.",
+    "브라우저·개발 도구·Xcode·임시·진단 캐시를 카테고리별로 심층 정리하고, 오래된 다운로드도 찾아냅니다.":"Deep-cleans browser, dev-tool, Xcode, temp, and diagnostic caches by category — and finds old downloads too.",
+    "SHA-256 해시로 내용이 똑같은 파일을 찾아 한 개만 남기고 정리합니다. 부분 해시로 거른 뒤 전체 해시로 재검증하고, 비슷한 사진(dHash)도 찾아냅니다.":"Finds files with identical content using SHA-256 hashes and keeps just one. Filters with partial hashes, re-verifies with full hashes, and spots similar photos (dHash).",
+    "앱을 지워도 남는 잔여물(설정·캐시·지원 파일)까지 함께 제거합니다.":"Removes the leftovers apps leave behind — settings, caches, support files — along with the app.",
+    "대용량 파일":"Large Files",
+    "100MB 이상 파일을 타입별로 스캔해 Finder에서 열거나 휴지통으로 보냅니다.":"Scans files over 100MB by type. Open them in Finder or send them to the Trash.",
+    "저장공간 탐색":"Storage Explorer",
+    "폴더별 용량을 트리맵으로 시각화하고 드릴다운합니다. 어디가 무거운지 한눈에 보입니다.":"Visualizes folder sizes as a treemap with drill-down. See what's heavy at a glance.",
+    "폴더 정리 + 압축":"Folder Tidy + Archive",
+    "다운로드·데스크탑을 이미지·문서·영상별로 자동 분류합니다. 정리 직후 되돌리기도 지원합니다. ZIP·TAR.GZ 압축과 해제(암호 지원)까지.":"Auto-sorts Downloads and Desktop into images, documents, and videos — with instant undo. Plus ZIP and TAR.GZ compression and extraction (passwords supported).",
+    /* 매일 쓰는 도구 */
+    "매일 쓰게 되는 도구들":"Tools you'll use every day",
+    "스크린샷 OCR, 클립보드 히스토리, 창 스냅, 맥 응급처치. 하루에도 몇 번씩 쓰는 도구들을 담았습니다.":"Screenshot OCR, clipboard history, window snapping, Mac first aid. The tools you reach for many times a day.",
+    "스크린샷 + OCR":"Screenshot + OCR",
+    "전체·영역·창 캡처(PNG·JPG·PDF)에 더해, 화면 속 글자를 온디바이스 Vision으로 추출합니다(한·영). 화면 속 QR코드도 바로 인식합니다. 펜·화살표·도형 주석 오버레이도 캡처에 그대로 담깁니다.":"Full, area, and window capture (PNG · JPG · PDF) — plus on-device Vision text extraction (Korean · English) and instant QR code reading. Pen, arrow, and shape annotations are captured right in.",
+    "창 스냅":"Window Snap",
+    "다른 앱 창을 좌/우 절반·최대화·가운데로 정렬합니다. 전역 단축키 ⌃⌥ + 방향키로 어디서든.":"Snap other apps' windows to left or right halves, maximized, or centered. Global shortcuts ⌃⌥ + arrows, from anywhere.",
+    "클립보드 히스토리":"Clipboard History",
+    "복사한 텍스트 50개·이미지 10개를 검색하고 클릭 한 번으로 재복사합니다. 메모리에만 보관하고 비밀번호 복사는 수집하지 않습니다.":"Search 50 copied texts and 10 images, then re-copy with one click. Kept in memory only — password copies are never collected.",
+    "Finder·Dock 재시작, DNS 플러시, Spotlight 재색인 같은 맥 응급처치와 숨은 설정 토글, 포트 점검·종료를 모았습니다.":"Mac first aid — restart Finder or Dock, flush DNS, rebuild Spotlight — plus hidden setting toggles and port check & kill.",
+    /* 보안 */
+    "정직한 보안":"Honest security",
+    "macOS 내장 보안 시스템의 실제 상태를 조회해 그대로 보여줍니다. 공포 마케팅으로 결제를 유도하지 않습니다.":"Reads the real state of macOS's built-in security and shows it as it is. No fear marketing, no pushy upsells.",
+    "보안 상태 점검":"Security Checkup",
+    "시스템의 실제 값을 읽어 9개 항목을 점검합니다.":"Reads actual system values to check 9 items.",
+    "멀웨어 정밀검사":"Malware Deep Scan",
+    "임시 경로·숨김 폴더의 자동 실행 항목, 깨진 서명, 애드웨어 흔적을 휴리스틱으로 탐지하고 격리 보관함으로 옮깁니다. 원위치 기록과 함께 보관해 언제든 복원할 수 있고, 브라우저 확장 점검(조회·경고만)도 함께 제공합니다.":"Heuristically detects auto-run items in temp and hidden folders, broken signatures, and adware traces — then moves them to a quarantine vault. Everything keeps its original-location record for one-click restore, with a browser-extension check (view & warn only) included.",
+    "점검 항목":"What it checks",
+    "XProtect 버전":"XProtect version","방화벽":"Firewall","OS 업데이트":"OS updates","hosts 변조":"hosts tampering",
+    "구성 프로파일":"Configuration profiles","자동 실행 항목":"Auto-run items",
+    "전부 시스템에 이미 있는 값을 조회하는 방식입니다. 앱이 별도 백신 엔진을 설치하지 않습니다.":"Everything is read from values already on your system. The app installs no separate antivirus engine.",
+    /* 한국 특화 */
+    "한국 사용자를 위한":"Five things built","다섯 가지":"for Korean users",
+    "개인정보는 입력받지 않고, 검증된 공식 조회처와 본인 기기 안에서만 동작합니다.":"No personal data is ever entered — only verified official lookup services, working entirely on your device.",
+    "서버에 절대 보내지 않는 가계부":"A ledger that never touches a server",
+    "카드사·은행 명세서 CSV를 드래그하면 자동 분류되고, 월별 리포트로 봅니다. 내역은 이 컴퓨터의 로컬 파일에만 저장됩니다. 데이터는 이 컴퓨터를 떠나지 않습니다.":"Drag in card or bank statement CSVs for automatic categorization and monthly reports. Entries are stored only in local files on this computer. Your data never leaves this computer.",
+    "숨겨진 돈 찾기":"Find Hidden Money",
+    "휴면예금·보험금·카드포인트·미환급금. 정부·공식기관 조회처 9곳만 모았습니다. 개인정보는 입력받지 않습니다.":"Dormant deposits, insurance payouts, card points, unclaimed refunds. Just 9 official government lookup services — no personal data required.",
+    "NPKI 인증서 정리":"NPKI Certificate Cleanup",
+    "쌓인 공동인증서를 100% 온디바이스로 파싱해 만료 여부를 확인하고 정리합니다. 인증서 정보는 기기 밖으로 전송하지 않습니다.":"Parses piled-up certificates 100% on-device, checks expiry, and cleans them up. Certificate details never leave your device.",
+    "개인정보 관리":"Privacy Manager",
+    "가입 사이트 정리, 털린 내 정보 조회, 명의도용 방지. 검증된 정부·공식기관 서비스 바로가기만 제공하고, 앱은 개인정보를 저장하지 않습니다.":"Clean up site signups, check for leaked credentials, prevent identity theft. Verified official government shortcuts only — the app stores no personal data.",
+    "포렌식":"Forensics",
+    "사진 진위·기기 무결성·봉인 리포트를 확인합니다. 본인 기기에서만 동작합니다.":"Verify photo authenticity, device integrity, and sealed reports. Works on your device only.",
+    /* 전체 26 */
+    "26개의 도구, 하나의 앱":"26 tools, one app",
+    "사이드바의 모든 탭입니다. 전부 기본 포함이고, 추가 결제는 없습니다.":"Every tab in the sidebar. All included — no extra payments.",
+    "메모리·디스크 링 게이지, 배터리·가동시간, 스마트 정리 + 부스트":"Memory & disk ring gauges, battery & uptime, smart cleanup + Boost",
+    "메모리·디스크·캐시·휴지통·시작 프로그램 종합 점검":"Full checkup of memory, disk, caches, Trash, login items",
+    "CPU 코어별·GPU·메모리 분해·디스크·네트워크 실시간 대시보드":"Real-time dashboard: per-core CPU, GPU, memory breakdown, disk, network",
+    "배터리 건강 실측 + 충전 습관 리포트 + 블루투스 기기 배터리":"Measured battery health + charging-habit report + Bluetooth device batteries",
+    "앱별 트래픽 + 속도 실측 + Wi-Fi 진단 + 채널 추천":"Per-app traffic + real speed tests + Wi-Fi diagnostics + channel picks",
+    "브라우저·개발도구·Xcode·임시·진단 캐시 심층 정리":"Deep-clean for browser, dev-tool, Xcode, temp, and diagnostic caches",
+    "SHA-256 전체 해시 검증 중복 스캔 + 유사 사진(dHash) 탐지":"SHA-256 full-hash verified duplicate scan + similar-photo (dHash) detection",
+    "설치 앱 검색·정렬, 삭제 시 잔여물까지 동반 제거":"Search & sort installed apps — leftovers removed on uninstall",
+    "100MB+ 파일 스캔, 타입 필터, Finder 열기·휴지통 이동":"Scan 100MB+ files, filter by type, open in Finder or move to Trash",
+    "폴더별 용량 트리맵 시각화 + 드릴다운":"Folder-size treemap visualization + drill-down",
+    "폴더 정리":"Folder Tidy",
+    "다운로드·데스크탑을 이미지·문서·영상별 자동 분류, 되돌리기 지원":"Auto-sort Downloads & Desktop by images, documents, videos — undo supported",
+    "압축":"Archive",
+    "ZIP·TAR.GZ·BZ2·XZ 압축/해제, 암호 지원, 미리보기":"ZIP · TAR.GZ · BZ2 · XZ compress/extract, passwords, preview",
+    "모든 정리 소스를 모아 종합 원클릭 정리":"Every cleanup source in one comprehensive one-click pass",
+    "메모리/CPU 상위 프로세스 실시간 조회·검색·안전 종료":"Live top processes by memory/CPU — search & safe quit",
+    "시작 프로그램":"Login Items",
+    "자동 실행 항목 조회·끄기, 언제든 복구 가능":"View & disable auto-run items, restore anytime",
+    "SIP·Gatekeeper·FileVault 등 9항목 점검 + 멀웨어 정밀검사·격리 보관함":"9-item checkup incl. SIP, Gatekeeper, FileVault + malware scan & quarantine",
+    "시스템 정보":"System Info",
+    "칩·코어·메모리·시리얼·디스크 SMART 등 하드웨어 상세":"Hardware details: chip, cores, memory, serial, disk SMART",
+    "가계부":"Ledger",
+    "카드사·은행 명세서 CSV 자동 분류·월별 리포트, 로컬 파일로만 저장":"Auto-categorized card & bank CSVs, monthly reports, local files only",
+    "휴면예금·보험금·미환급금 정부 공식 조회처 모음":"Official government lookups for dormant deposits, insurance & refunds",
+    "스크린샷":"Screenshots",
+    "전체/영역/창 캡처 + OCR(한·영)·QR 인식 + 주석":"Full/area/window capture + OCR (KR · EN), QR reading + annotations",
+    "클립보드":"Clipboard",
+    "복사 히스토리 검색·재복사, 메모리만 보관":"Search & re-copy clipboard history, kept in memory only",
+    "맥 응급처치 + 숨은 설정 토글 + 포트 점검·종료":"Mac first aid + hidden setting toggles + port check & kill",
+    "좌/우 절반·최대화·가운데 정렬, 전역 단축키":"Snap left/right, maximize, center — global shortcuts",
+    "가입 사이트 정리·털린 내 정보 등 공식 서비스 바로가기":"Official shortcuts: site signups, leaked-info check, and more",
+    "사진 진위·기기 무결성·봉인 리포트, 본인 기기 전용":"Photo authenticity, device integrity, sealed reports — your device only",
+    "설정":"Settings",
+    "알림·메뉴바·자동 정리 예약·로그인 시 자동 실행":"Notifications, menu bar, scheduled cleanup, launch at login",
+    /* 안전 원칙 */
+    "빠르게 정리하되,":"Clean fast,","잃어버리지 않게":"lose nothing",
+    "삭제 전 반드시 확인":"Always confirm first",
+    "부스트·휴지통 비우기·파일 삭제·프로세스 종료. 모든 파괴적 작업은 확인 다이얼로그를 거칩니다.":"Boost, emptying the Trash, deleting files, quitting processes — every destructive action goes through a confirmation dialog.",
+    "사용자 영역만":"User space only",
+    "캐시·로그 정리는 ~/Library 안에서만. 시스템 영역은 건드리지 않습니다.":"Cache and log cleanup stays inside ~/Library. System areas are never touched.",
+    "휴지통으로 이동":"Moved to Trash",
+    "파일 삭제는 영구 삭제가 아니라 휴지통 이동. 언제든 되돌릴 수 있습니다.":"Deleting a file means moving it to the Trash, not erasing it. You can always undo.",
+    "사용 중 파일 보호":"In-use files protected",
+    "앱이 쓰고 있는(잠긴) 캐시는 자동으로 건너뜁니다. 작업을 방해하지 않습니다.":"Caches locked by running apps are skipped automatically. Your work is never interrupted.",
+    /* 다운로드 */
+    "무료로 시작하세요":"Start free",
+    "설치 한 번으로 청소·모니터링·보안 점검까지.":"One install: cleanup, monitoring, and security checks.",
+    "26개 도구 풀버전 · macOS 14+ · 유니버설 바이너리(Apple Silicon/Intel)":"Full version with 26 tools · macOS 14+ · Universal binary (Apple Silicon/Intel)",
+    "최신 버전 · DMG 약 5MB · 첫 실행은 우클릭 → 열기":"Latest version · DMG ~5MB · First launch: right-click → Open",
+    "22개 도구 · Windows 10/11 64비트 · 설치 없이 압축 해제 후 실행":"22 tools · Windows 10/11 64-bit · No install — just unzip and run",
+    "베타 · ZIP 약 65MB · SmartScreen 경고 시 [추가 정보]→[실행]":"Beta · ZIP ~65MB · If SmartScreen warns: More info → Run anyway",
+    "17개 도구 · Android 8+ · 외부 의존성 0, APK 약 54KB":"17 tools · Android 8+ · Zero dependencies, APK ~54KB",
+    "베타 · APK · 설치 시 출처 불명 앱 허용 필요":"Beta · APK · Requires allowing installs from unknown sources",
+    "iOS는 App Store 준비 중입니다.":"iOS is coming to the App Store.",
+    "무료 · 모든 삭제는 확인 절차를 거치고 사용자 영역만 정리합니다":"Free · every deletion is confirmed and stays in your user space"
+  };
+
+  var btn = document.getElementById('langToggle');
+  var current = 'ko';
+
+  function setLang(lang){
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var n;
+    while ((n = walker.nextNode())){
+      if (lang === 'en'){
+        var m = n.nodeValue.match(/^(\s*)([\s\S]*?)(\s*)$/);
+        var key = m[2].replace(/\s+/g, ' ');
+        if (key && EN.hasOwnProperty(key)){
+          if (n.__ko === undefined) n.__ko = n.nodeValue;
+          n.nodeValue = m[1] + EN[key] + m[3];   /* 앞뒤 공백 보존 - 인라인 형제와 안 붙게 */
+        }
+      } else if (n.__ko !== undefined){
+        n.nodeValue = n.__ko;
+      }
+    }
+    current = lang;
+    document.documentElement.lang = lang === 'en' ? 'en' : 'ko';
+    var nav = document.querySelector('nav');
+    if (nav) nav.setAttribute('aria-label', lang === 'en' ? 'Main menu' : '주 메뉴');
+    if (btn){
+      btn.textContent = lang === 'en' ? 'KO' : 'EN';
+      btn.setAttribute('aria-label', lang === 'en' ? '한국어로 보기' : 'Switch to English');
+    }
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem('gyeol-lang'); } catch(e){}
+  var initial = (saved === 'en' || saved === 'ko') ? saved
+    : (((navigator.language || '').toLowerCase().indexOf('ko') === 0) ? 'ko' : 'en');
+  if (initial === 'en') setLang('en');
+
+  if (btn) btn.addEventListener('click', function(){
+    var next = current === 'en' ? 'ko' : 'en';
+    setLang(next);
+    try { localStorage.setItem('gyeol-lang', next); } catch(e){}
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
+<script>
+(function(){
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !window.gsap || !window.ScrollTrigger) return; // 폴백: 전부 정적 완전 표시 (Lenis도 미기동 = 네이티브 스크롤)
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Lenis 스무스 스크롤 (공식 GSAP 동기화 패턴) ──
+     단일 RAF: gsap.ticker가 lenis.raf 구동, lenis 스크롤마다 ScrollTrigger.update.
+     reduced-motion·CDN 실패 시 위에서 return → 네이티브 스크롤 그대로. */
+  if (window.Lenis){
+    var lenis = new Lenis({ autoRaf:false, anchors:true }); /* 랜딩 보정은 CSS scroll-margin-top 단일 소스 */
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* 토스 톤: 부드러운 페이드+슬라이드업 (cubic-bezier(.22,1,.36,1) ≈ power4.out), 600~800ms.
+     핀 스크럽 없음 - 순차 섹션 페이드가 토스 문법.
+     초기 상태는 GSAP만 세팅 (CSS 가림 0 - FOUC·데드락 원천 차단) */
+  var EASE = 'power4.out';
+  function reveal(sel, vars){
+    gsap.utils.toArray(sel).forEach(function(el){
+      gsap.from(el, Object.assign({
+        y:26, opacity:0, duration:.75, ease:EASE,
+        scrollTrigger:{trigger:el, start:'top 86%', once:true}
+      }, vars || {}));
+    });
+  }
+  function revealGrid(containerSel, itemSel, each){
+    gsap.utils.toArray(containerSel).forEach(function(g){
+      var items = g.querySelectorAll(itemSel);
+      if(!items.length) return;
+      gsap.from(items, {
+        y:20, opacity:0, duration:.7, ease:EASE, stagger:each,
+        scrollTrigger:{trigger:g, start:'top 84%', once:true}
+      });
+    });
+  }
+
+  /* ── 가시성 워치독 레지스트리 (1회성 리빌 전수 - 스크럽 연동 제외) ──
+     정상 흐름에선 절대 발화하지 않는 최후 안전망. 발화 조건(보수적):
+     ① 요소 top이 뷰포트 70% 위 (가장 이른 once 트리거 시작점보다 안쪽
+        → 정상이라면 해당 트리거는 이미 발화했어야 하는 위치)
+     ② opacity<0.1 (또는 마스크 헤딩: 래퍼 밖 yPercent 방치) 상태가
+        2회 연속 검사(1.5s 주기, 즉 1주기 이상) 지속 */
+  var wdItems = [];
+  function wdWatch(sel){
+    gsap.utils.toArray(sel).forEach(function(el){
+      wdItems.push({el:el, strikes:0, done:false});
+    });
+  }
+  window.__gyeolWatchdog = {fires:0, rescued:[]};
+
+  /* ── 문제 스테이트먼트 ── */
+  reveal('.stmt .giant', {y:34, duration:.9});
+  reveal('.stmt .stmt-sub', {delay:.1});
+
+  /* ── 쌓이는 것들 ── */
+  revealGrid('.pile', '.pile-row', .06);
+
+  /* ── 되찾는 것들: 워드 스크럽 (스크럽 연동 - 워치독 제외, 기저 가시 0.13) ── */
+  var words = document.querySelectorAll('.scrub-words span');
+  if (words.length){
+    gsap.fromTo(words, {opacity:.13}, {
+      opacity:1, stagger:.12, ease:'none',
+      scrollTrigger:{trigger:'.scrub-words', start:'top 80%', end:'top 34%', scrub:1}
+    });
+  }
+  /* 3셀: 완전 숨김 대신 저채도 초기 상태 - 회색 빈 덩어리로 보이지 않게 */
+  gsap.utils.toArray('.regain').forEach(function(g){
+    gsap.fromTo(g.querySelectorAll('.cell'),
+      {opacity:.35, y:12},
+      {opacity:1, y:0, duration:.75, ease:EASE, stagger:.08,
+       scrollTrigger:{trigger:g, start:'top 94%', once:true}});
+  });
+
+  /* ── 히어로 목업 링: 뷰포트 진입 시 드로잉 + 숫자 트윈 1회 (카운트업 남발 금지) ── */
+  var mock = document.querySelector('.mock-window');
+  if (mock){
+    var CIRC = 263.9;
+    var rtl = gsap.timeline({
+      scrollTrigger:{trigger:'.mock-rings', start:'top 88%', once:true}
+    });
+    document.querySelectorAll('.mring').forEach(function(ring, i){
+      var c = ring.querySelector('.val'), n = ring.querySelector('.num');
+      var target = +n.dataset.v, at = .1 + i*.12;
+      rtl.set(c, {strokeDashoffset:CIRC}, 0);
+      rtl.set(n, {textContent:'0%'}, 0);
+      rtl.to(c, {strokeDashoffset:CIRC*(1-target/100), duration:1.1, ease:'power2.out'}, at);
+      var o = {v:0};
+      rtl.to(o, {v:target, duration:1.1, ease:'power2.out', onUpdate:function(){
+        n.textContent = Math.round(o.v) + '%';
+      }}, at);
+    });
+  }
+
+  /* ── 섹션 헤딩: 마스크 슬라이드업 통일 (overflow 래퍼) ── */
+  function maskHeads(sel){
+    gsap.utils.toArray(sel).forEach(function(h){
+      var wrap = document.createElement('span'), inner = document.createElement('span');
+      wrap.style.cssText = 'display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em';
+      inner.style.display = 'block';
+      while (h.firstChild) inner.appendChild(h.firstChild);
+      wrap.appendChild(inner); h.appendChild(wrap);
+      gsap.from(inner, {yPercent:118, duration:.9, ease:EASE,
+        scrollTrigger:{trigger:h, start:'top 87%', once:true}});
+      wdItems.push({el:inner, mask:wrap, strikes:0, done:false}); /* 마스크 밖 방치 감시 */
+    });
+  }
+  maskHeads('.sec-head h2');
+  reveal('.sec-head p', {y:14, duration:.6, delay:.1});
+
+  /* ── 섹션 오케스트레이션 (순차 페이드) ── */
+  revealGrid('.facts', '.fact', .07);
+  reveal('.rows .row', {y:20, duration:.7});
+  revealGrid('.cards', '.card', .08);
+
+  /* 보안 패널: 좌우 슬라이드 인 */
+  gsap.utils.toArray('.sec-split').forEach(function(g){
+    var kids = g.children;
+    if (kids[0]) gsap.from(kids[0], {x:-20, opacity:0, duration:.8, ease:EASE,
+      scrollTrigger:{trigger:g, start:'top 80%', once:true}});
+    if (kids[1]) gsap.from(kids[1], {x:20, opacity:0, duration:.8, ease:EASE, delay:.08,
+      scrollTrigger:{trigger:g, start:'top 80%', once:true}});
+  });
+
+  revealGrid('.kr', '.cell', .09);
+  revealGrid('.all-grid', '.tool', .04);
+  revealGrid('.safety', '.srule', .09);
+
+  /* 다운로드 피날레: 카드 라이즈 + 주 CTA 1회 강조 */
+  gsap.utils.toArray('.dl-grid').forEach(function(g){
+    var tl = gsap.timeline({scrollTrigger:{trigger:g, start:'top 82%', once:true}});
+    tl.from(g.querySelectorAll('.plat'), {y:22, opacity:0, stagger:.09, duration:.8, ease:EASE});
+    var cta = g.querySelector('.btn-primary');
+    if (cta) tl.fromTo(cta, {scale:1}, {scale:1.045, duration:.26, ease:'power2.inOut', yoyo:true, repeat:1}, '-=.1');
+  });
+  /* 최하단 요소: 문서 끝의 아슬아슬한 발화 방지 - 뷰포트 진입 즉시 */
+  gsap.utils.toArray('.dl-foot').forEach(function(el){
+    gsap.from(el, {y:12, opacity:0, duration:.6, ease:EASE,
+      scrollTrigger:{trigger:el, start:'top bottom', once:true}});
+  });
+
+  /* ── 워치독 감시 대상 등록 (1회성 리빌 전수) ── */
+  wdWatch('.stmt .giant'); wdWatch('.stmt .stmt-sub');
+  wdWatch('.pile-row');
+  wdWatch('.regain .cell');
+  wdWatch('.sec-head p');
+  wdWatch('.facts .fact'); wdWatch('.rows .row'); wdWatch('.cards .card');
+  wdWatch('.sec-split > *');
+  wdWatch('.kr .cell'); wdWatch('.all-grid .tool'); wdWatch('.safety .srule');
+  wdWatch('.dl-grid .plat'); wdWatch('.dl-foot');
+
+  function wdHidden(item){
+    var r = item.el.getBoundingClientRect();
+    if (!r.width || !r.height) return false;              /* display:none 등은 판단 보류 */
+    var vh = window.innerHeight;
+    if (!(r.top < vh * .70 && r.bottom > vh * .05)) return false; /* 뷰포트 깊숙이 들어온 것만 */
+    if (parseFloat(getComputedStyle(item.el).opacity) < .1) return true;
+    if (item.mask){                                       /* 마스크 헤딩: 래퍼 밖 yPercent 방치 */
+      var w = item.mask.getBoundingClientRect();
+      if (r.top >= w.bottom - 1) return true;
+    }
+    return false;
+  }
+  setInterval(function(){
+    if (document.hidden) return;
+    wdItems.forEach(function(item){
+      if (item.done) return;
+      if (wdHidden(item)){
+        item.strikes++;
+        if (item.strikes >= 2){                           /* 1주기(1.5s) 이상 방치 확인 후 구조 */
+          item.done = true;
+          window.__gyeolWatchdog.fires++;
+          window.__gyeolWatchdog.rescued.push(item.el.className || item.el.tagName);
+          console.warn('[GYEOL watchdog] rescue:', item.el);
+          gsap.killTweensOf(item.el);                     /* 죽은 once 트윈 제거 후 강제 표시 */
+          gsap.to(item.el, {opacity:1, x:0, y:0, xPercent:0, yPercent:0, scale:1,
+            duration:.4, ease:'power2.out', overwrite:'auto'});
+        }
+      } else {
+        item.strikes = 0;
+      }
+    });
+  }, 1500);
+
+  /* ── bfcache 복귀·탭 복귀: ScrollTrigger 상태 꼬임 방어 (사파리 뒤로가기 등) ── */
+  window.addEventListener('pageshow', function(e){
+    if (e.persisted) requestAnimationFrame(function(){ ScrollTrigger.refresh(); });
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible')
+      requestAnimationFrame(function(){ ScrollTrigger.refresh(); });
+  });
+})();
+</script>
+</body>
+</html>
